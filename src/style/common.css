@@ -1,0 +1,19 @@
+.style_red {
+  color: red;
+}
+
+.bottom_red {
+  border-bottom: 1px solid red;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+span {
+  cursor: pointer;
+}
