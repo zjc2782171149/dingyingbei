@@ -3,12 +3,12 @@
     <div class="mask__name">
       <div class="iconfont">&#xe741;</div>
       <div class="mask__text">真实姓名</div>
-      <input type="text" class="mask__input" placeholder="你说的都队" />
+      <input type="text" class="mask__input" placeholder="团队成员的真实姓名" />
     </div>
     <div class="mask__phone">
       <div class="iconfont">&#xe741;</div>
       <div class="mask__text">手机电话</div>
-      <input type="text" class="mask__input" placeholder="请填写作品名称" />
+      <input type="text" class="mask__input" placeholder="团队成员的手机号码" />
     </div>
     <div class="mask__number">
       <div class="iconfont">&#xe741;</div>
@@ -16,17 +16,15 @@
       <input
         type="text"
         class="mask__input mask__number__input"
-        placeholder="请填写作品名称"
+        placeholder="团队成员的学号"
       />
     </div>
     <div class="mask__type">
       <div class="iconfont mask__type__iconfont">&#xe741;</div>
       <div class="mask__text">学生类型</div>
       <select name="" id="" class="mask__select mask__type__select">
-        <option value="科技">科技</option>
-        <option value="体育">体育</option>
-        <option value="生活">生活</option>
-        <option value="其他">其他</option>
+        <option value="本科生">本科生</option>
+        <option value="研究生">研究生</option>
       </select>
     </div>
     <div class="mask__college">
@@ -35,7 +33,7 @@
       <input
         type="text"
         class="mask__input mask__college__input"
-        placeholder="请填写作品名称"
+        placeholder="团队成员的学院"
       />
     </div>
     <div class="mask__zhuanye">
@@ -44,7 +42,7 @@
       <input
         type="text"
         class="mask__input mask__zhuanye__input"
-        placeholder="请填写作品名称"
+        placeholder="团队成员的专业"
       />
     </div>
     <div class="mask__add" @click="cancelMask">添加</div>
@@ -187,8 +185,5 @@ export default {
     border-radius: 0.04rem;
     cursor: pointer;
   }
-}
-option {
-  color: #757575;
 }
 </style>

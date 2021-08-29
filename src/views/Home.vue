@@ -5,11 +5,21 @@
     <div class="frame">
       <section class="shortcut">
         <div class="shortcut__fr">
-          <span class="style_red bottom_red" @click="changeType('item')"
+          <span
+            :class="{ styleAll_red: which === 'Item' }"
+            @click="changeType('item')"
             >项目信息</span
           >
-          <span @click="changeType('team')">团队信息</span>
-          <span @click="changeType('teacher')">导师信息</span>
+          <span
+            :class="{ styleAll_red: which === 'Team' }"
+            @click="changeType('team')"
+            >团队信息</span
+          >
+          <span
+            :class="{ styleAll_red: which === 'Teacher' }"
+            @click="changeType('teacher')"
+            >导师信息</span
+          >
         </div>
         <div class="shortcut__hr"></div>
         <!-- <div></div>s -->
