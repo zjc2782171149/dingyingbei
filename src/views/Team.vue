@@ -4,7 +4,7 @@
     <div class="team__box">
       <div class="team__member">
         <div class="iconfont team__imgs">&#xe601;</div>
-        <div class="team__member__name">我的儿子</div>
+        <div class="team__member__name">张三</div>
         <div class="team__member__job">负责人</div>
         <div class="team__member__college">数学与信息学院</div>
         <div class="team__member__xueli">本科</div>
@@ -15,7 +15,7 @@
       </div>
       <div class="team__member">
         <div class="iconfont team__imgs">&#xe601;</div>
-        <div class="team__member__name">我的儿子</div>
+        <div class="team__member__name">张三</div>
         <div class="team__member__job">负责人</div>
         <div class="team__member__college">数学与信息学院</div>
         <div class="team__member__xueli">本科</div>
@@ -26,7 +26,7 @@
       </div>
       <div class="team__member">
         <div class="iconfont team__imgs">&#xe601;</div>
-        <div class="team__member__name">我的儿子</div>
+        <div class="team__member__name">张三</div>
         <div class="team__member__job">负责人</div>
         <div class="team__member__college">数学与信息学院</div>
         <div class="team__member__xueli">本科</div>
@@ -38,14 +38,37 @@
     </div>
     <div class="team__addMember">
       <div class="iconfont team__add">&#xe641;</div>
-      <div class="team__character">添加团队成员</div>
+      <div class="team__character" @click="changeMaskShow">添加团队成员</div>
+    </div>
+  </div>
+  <div class="maskItem" v-show="addShow">
+    <div class="maskItem__frame">
+      <Mask @cancelMask="closeMask" />
     </div>
   </div>
 </template>
 
 <script>
+import Mask from "./Mask.vue";
+
 export default {
   name: "Team",
+  components: {
+    Mask,
+  },
+  data() {
+    return {
+      addShow: false,
+    };
+  },
+  methods: {
+    changeMaskShow() {
+      this.addShow = !this.addShow;
+    },
+    closeMask() {
+      this.addShow = false;
+    },
+  },
 };
 </script>
 
@@ -158,6 +181,25 @@ export default {
     right: 0.1rem;
     font-size: 0.18rem;
     cursor: pointer;
+  }
+}
+.maskItem {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  &__frame {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    width: 7.5rem;
+    height: 4rem;
+    border-radius: 0.14rem;
   }
 }
 ::-webkit-scrollbar {
