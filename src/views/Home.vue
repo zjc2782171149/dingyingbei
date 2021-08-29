@@ -5,12 +5,24 @@
     <div class="frame">
       <section class="shortcut">
         <div class="shortcut__fr">
-          <span class="style_red bottom_red">项目信息</span>
-          <span>团队信息</span>
-          <span>老师信息</span>
+          <span class="style_red bottom_red" @click="changeType('item')"
+            >项目信息</span
+          >
+          <span @click="changeType('team')">团队信息</span>
+          <span @click="changeType('teacher')">导师信息</span>
         </div>
         <div class="shortcut__hr"></div>
+        <!-- <div></div>s -->
       </section>
+      <component :is="which"></component>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+      <!-- <router-view v-slot="{ which }">
+        <keep-alive>
+          <component :is="which"></component>
+        </keep-alive>
+      </router-view> -->
     </div>
     <div class="topimg"><img src="../assets/imgs/1.png" alt="" /></div>
   </div>
@@ -19,15 +31,39 @@
 
 <script>
 // @ is an alias to /src
+import Item from "./Item.vue";
+import Team from "./Team.vue";
+import Teacher from "./Teacher.vue";
 
 export default {
   name: "Home",
-  components: {},
+  components: {
+    Item,
+    Team,
+    Teacher,
+  },
+  data() {
+    return {
+      which: "Item",
+    };
+  },
+  methods: {
+    changeType(what) {
+      if (what === "item") {
+        this.which = "Item";
+      } else if (what === "team") {
+        this.which = "Team";
+      } else {
+        this.which = "Teacher";
+      }
+      // console.log(this.which);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../style/common";
+// @import "../style/common";
 
 html,
 body {
@@ -45,7 +81,7 @@ body {
   position: absolute;
   width: 13.2rem;
   height: 6.3rem;
-  background-color: #fff;
+  background-color: #ffffff;
   left: 1.08rem;
   top: 1rem;
 }
@@ -66,7 +102,7 @@ body {
     background: #eee;
   }
   &__hr {
-    margin-top: 0.1rem;
+    margin: 0.1rem 0rem;
     height: 0.12rem;
     background: #eee;
   }
