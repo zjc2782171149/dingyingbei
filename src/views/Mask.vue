@@ -104,7 +104,7 @@ export default {
     border-radius: 0.1rem;
     border: 1px solid #bbbbbb;
     outline: none;
-    padding-left: 0.1rem;
+    padding: 0 0.1rem;
     font-size: 0.13rem;
     box-sizing: border-box;
   }
@@ -166,11 +166,14 @@ export default {
     height: 0.4rem;
     line-height: 0.4rem;
     text-align: center;
-    background: #287bea;
+    background: #1c96d7;
     color: #fff;
     font-size: 0.16rem;
     border-radius: 0.04rem;
     cursor: pointer;
+  }
+  &__add:hover {
+    background: #287bea;
   }
   &__cancel {
     position: absolute;
@@ -184,6 +187,9 @@ export default {
     font-size: 0.16rem;
     border-radius: 0.04rem;
     cursor: pointer;
+  }
+  &__cancel:hover {
+    background: #bdc3c7;
   }
 }
 </style>

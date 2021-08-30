@@ -24,10 +24,11 @@
         <div class="shortcut__hr"></div>
         <!-- <div></div>s -->
       </section>
-      <component :is="which"></component>
+
       <keep-alive>
-        <router-view></router-view>
+        <component :is="which"></component>
       </keep-alive>
+      <router-view></router-view>
       <!-- <router-view v-slot="{ which }">
         <keep-alive>
           <component :is="which"></component>
@@ -41,9 +42,9 @@
 
 <script>
 // @ is an alias to /src
-import Item from "./Item.vue";
-import Team from "./Team.vue";
-import Teacher from "./Teacher.vue";
+import Item from "./Item";
+import Team from "./Team";
+import Teacher from "./Teacher";
 
 export default {
   name: "Home",

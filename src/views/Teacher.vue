@@ -24,7 +24,7 @@
         <div class="input__title">老师职称</div>
         <input type="text" class="input__Input" />
       </div>
-      <div class="input__add">添加</div>
+      <div class="input__add" @click="confirmMessage">确认</div>
       <div class="input__cancel">取消</div>
     </div>
   </div>
@@ -33,6 +33,11 @@
 <script>
 export default {
   name: "Teacher",
+  methods: {
+    confirmMessage() {
+      console.log("confirm");
+    },
+  },
 };
 </script>
 
@@ -134,10 +139,13 @@ export default {
     height: 0.4rem;
     line-height: 0.4rem;
     text-align: center;
-    background: #287bea;
+    background: #1c96d7;
     color: #fff;
     border-radius: 0.04rem;
     cursor: pointer;
+  }
+  &__add:hover {
+    background: #287bea;
   }
   &__cancel {
     position: absolute;
@@ -150,6 +158,9 @@ export default {
     color: #000;
     border-radius: 0.04rem;
     cursor: pointer;
+  }
+  &__cancel:hover {
+    background: #bdc3c7;
   }
   &__title {
     display: inline-block;

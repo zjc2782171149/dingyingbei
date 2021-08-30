@@ -4,24 +4,44 @@
     <div class="sign__team">
       <div class="iconfont">&#xe741;</div>
       <div class="sign__text">团队名称</div>
-      <input type="text" class="sign__input" placeholder="你说的都队" />
+      <input
+        type="text"
+        class="sign__input"
+        placeholder="你说的都队"
+        v-model="itemList.teamName"
+      />
     </div>
     <div class="sign__homework">
       <div class="iconfont">&#xe741;</div>
       <div class="sign__text">作品名称</div>
-      <input type="text" class="sign__input" placeholder="请填写作品名称" />
+      <input
+        type="text"
+        class="sign__input"
+        placeholder="请填写作品名称"
+        v-model="itemList.productionName"
+      />
     </div>
     <div class="sign__type">
       <div class="iconfont sign__type__iconfont">&#xe741;</div>
       <div class="sign__text">作品类别</div>
-      <select name="" id="" class="sign__select">
+      <select
+        name=""
+        id=""
+        class="sign__select"
+        v-model="itemList.productionType.typeOne"
+      >
         <option value="科技">科技</option>
         <option value="体育">体育</option>
         <option value="生活">生活</option>
         <option value="其他">其他</option>
       </select>
       &nbsp;
-      <select name="" id="" class="sign__select" placeholder="你说的都队">
+      <select
+        name=""
+        id=""
+        class="sign__select"
+        v-model="itemList.productionType.typeTwo"
+      >
         <option value="科技">科技</option>
         <option value="体育">体育</option>
         <option value="生活">生活</option>
@@ -35,7 +55,12 @@
       <button class="sign__xiugaibtn" @click="xiugaibtn1">上传文件</button>
       <!-- 显示文件路径 -->
       <div class="sign__filetext">{{ filepath1 }}</div>
-      <input type="file" ref="files1" class="sign__file" @change="printfile1" />
+      <input
+        type="file"
+        ref="files1"
+        class="sign__file"
+        @change="getFile1($event)"
+      />
       <!-- 上传文件 end -->
     </div>
     <div class="sign__other">
@@ -45,9 +70,16 @@
       <button class="sign__xiugaibtn" @click="xiugaibtn2">上传文件</button>
       <!-- 显示文件路径 -->
       <div class="sign__filetext">{{ filepath2 }}</div>
-      <input type="file" ref="files2" class="sign__file" @change="printfile2" />
+      <input
+        type="file"
+        ref="files2"
+        class="sign__file"
+        @change="getFile2($event)"
+      />
       <!-- 上传文件 end -->
     </div>
+    <div class="sign__add" @click="confirmMessage">确认</div>
+    <div class="sign__cancel">取消</div>
   </div>
 </template>
 
@@ -58,6 +90,18 @@ export default {
     return {
       haveFile1: "",
       haveFile2: "",
+      itemList: {
+        teamName: "",
+        productionName: "",
+        productionType: {
+          typeOne: "",
+          typeTwo: "",
+        },
+        fileLists: {
+          file1: "",
+          file2: "",
+        },
+      },
     };
   },
   computed: {
@@ -82,16 +126,36 @@ export default {
     xiugaibtn1() {
       this.$refs.files1.click(); // 绑定上传文件的事件
     },
-    printfile1() {
-      // console.log(this.$refs.files);
-      this.haveFile1 = this.$refs.files1;
-    },
     xiugaibtn2() {
       this.$refs.files2.click(); // 绑定上传文件的事件
     },
-    printfile2() {
-      // console.log(this.$refs.files);
+    getFile1(event) {
+      this.haveFile1 = this.$refs.files1;
+      const file = event.target.files;
+      this.itemList.fileLists.file1 = file;
+      console.log(file);
+      // console.log(this.$store.state.peopleMessageList);
+    },
+    getFile2(event) {
       this.haveFile2 = this.$refs.files2;
+      const file = event.target.files;
+      this.itemList.fileLists.file2 = file;
+      console.log(file);
+    },
+    confirmMessage() {
+      this.$store.state.peopleMessageList.project.teamName =
+        this.itemList.teamName;
+      this.$store.state.peopleMessageList.project.productionName =
+        this.itemList.productionName;
+      this.$store.state.peopleMessageList.project.productionType.typeOne =
+        this.itemList.productionType.typeOne;
+      this.$store.state.peopleMessageList.project.productionType.typeTwo =
+        this.itemList.productionType.typeTwo;
+      this.$store.state.peopleMessageList.project.fileLists.file1 =
+        this.itemList.fileLists.file1;
+      this.$store.state.peopleMessageList.project.fileLists.file2 =
+        this.itemList.fileLists.file2;
+      console.log(this.$store.state.peopleMessageList);
     },
   },
 };
@@ -214,6 +278,36 @@ export default {
     width: 1rem;
     height: 0.26rem;
     border: none;
+  }
+  &__add {
+    position: absolute;
+    margin: 4.5rem 0.7rem 0.3rem 1.2rem;
+    width: 1.3rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    text-align: center;
+    background: #1c96d7;
+    color: #fff;
+    border-radius: 0.04rem;
+    cursor: pointer;
+  }
+  &__add:hover {
+    background: #287bea;
+  }
+  &__cancel {
+    position: absolute;
+    margin: 4.5rem 0.7rem 0.3rem 3.2rem;
+    width: 1.3rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    text-align: center;
+    background: #a2a2a2;
+    color: #000;
+    border-radius: 0.04rem;
+    cursor: pointer;
+  }
+  &__cancel:hover {
+    background: #bdc3c7;
   }
 }
 .low {

@@ -4,14 +4,14 @@
     <div class="team__box">
       <div class="team__member">
         <div class="iconfont team__imgs">&#xe601;</div>
-        <div class="team__member__name">张三</div>
-        <div class="team__member__job">负责人</div>
-        <div class="team__member__college">数学与信息学院</div>
-        <div class="team__member__xueli">本科</div>
-        <div class="team__member__project">软件工程</div>
+        <div class="team__member__name">张三三三三三</div>
+        <div class="team__member__job">负责发的人工书法大赛夺冠</div>
+        <div class="team__member__college">数学与信息学院发打发士大夫</div>
+        <div class="team__member__xueli">本科发生发达省份的</div>
+        <div class="team__member__project">软件工程发射点发生发</div>
         <div class="team__member__number">学号：11111111111111111111111</div>
         <div class="team__member__phone">联系方式：111111111111111111111</div>
-        <div class="iconfont team__imgs2">&#xe604;</div>
+        <div class="iconfont team__imgs2" @click="openMaskShow">&#xe604;</div>
       </div>
       <div class="team__member">
         <div class="iconfont team__imgs">&#xe601;</div>
@@ -22,7 +22,7 @@
         <div class="team__member__project">软件工程</div>
         <div class="team__member__number">学号：</div>
         <div class="team__member__phone">联系方式：</div>
-        <div class="iconfont team__imgs2">&#xe604;</div>
+        <div class="iconfont team__imgs2" @click="openMaskShow">&#xe604;</div>
       </div>
       <div class="team__member">
         <div class="iconfont team__imgs">&#xe601;</div>
@@ -33,12 +33,12 @@
         <div class="team__member__project">软件工程</div>
         <div class="team__member__number">学号：</div>
         <div class="team__member__phone">联系方式：</div>
-        <div class="iconfont team__imgs2">&#xe604;</div>
+        <div class="iconfont team__imgs2" @click="openMaskShow">&#xe604;</div>
       </div>
     </div>
-    <div class="team__addMember">
+    <div class="team__addMember" @click="openMaskShow">
       <div class="iconfont team__add">&#xe641;</div>
-      <div class="team__character" @click="changeMaskShow">添加团队成员</div>
+      <div class="team__character">添加团队成员</div>
     </div>
   </div>
   <div class="maskItem" v-show="addShow">
@@ -62,7 +62,7 @@ export default {
     };
   },
   methods: {
-    changeMaskShow() {
+    openMaskShow() {
       this.addShow = !this.addShow;
     },
     closeMask() {
@@ -90,7 +90,7 @@ export default {
   }
   &__box {
     overflow-y: scroll;
-    width: 6.4rem;
+    width: 10rem;
     height: 4rem;
     // border: 1px solid #bbbbbb;
   }
@@ -104,36 +104,67 @@ export default {
     cursor: default;
     &__name {
       position: absolute;
+      top: 0.21rem;
       left: 1rem;
       font-size: 0.17rem;
+      width: 0.69rem;
+      height: 0.35rem;
+      line-height: 0.35rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     &__job {
       position: absolute;
-      top: 0.02rem;
-      left: 1.8rem;
+      top: 0.28rem;
+      left: 1.73rem;
+      width: 0.7rem;
+      height: 0.25rem;
+      line-height: 0.25rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     &__college {
       position: absolute;
-      top: 0.4rem;
+      top: 0.6rem;
       left: 1rem;
+      width: 1.5rem;
+      height: 0.25rem;
+      line-height: 0.25rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     &__xueli {
       position: absolute;
-      top: 0.65rem;
+      top: 0.85rem;
       left: 1rem;
+      width: 0.4rem;
+      height: 0.25rem;
+      line-height: 0.25rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     &__project {
       position: absolute;
-      top: 0.65rem;
-      left: 1.3rem;
+      top: 0.85rem;
+      left: 1.4rem;
+      width: 0.7rem;
+      height: 0.25rem;
+      line-height: 0.25rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     &__number {
       position: absolute;
-      top: 0.25rem;
+      top: 0.28rem;
       left: 3.8rem;
       width: 1.8rem;
-      height: 0.3rem;
-      line-height: 0.3rem;
+      height: 0.25rem;
+      line-height: 0.25rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -143,8 +174,8 @@ export default {
       top: 0.7rem;
       left: 3.8rem;
       width: 1.83rem;
-      height: 0.3rem;
-      line-height: 0.3rem;
+      height: 0.25rem;
+      line-height: 0.25rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -173,14 +204,16 @@ export default {
     position: absolute;
     font-size: 0.4rem;
     top: -0.1rem;
-    left: 0.25rem;
+    left: 0.24rem;
   }
   &__imgs2 {
     position: absolute;
-    margin-top: -0.2rem;
-    right: 0.1rem;
+    margin-top: -0.01rem;
+    right: 0.08rem;
     font-size: 0.18rem;
     cursor: pointer;
+    height: 0.35rem;
+    line-height: 0.35rem;
   }
 }
 .maskItem {
