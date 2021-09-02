@@ -26,7 +26,7 @@
       </section>
 
       <keep-alive>
-        <component :is="which"></component>
+        <component :is="which" @changePage="changeToTeam"></component>
       </keep-alive>
       <router-view></router-view>
       <!-- <router-view v-slot="{ which }">
@@ -68,6 +68,9 @@ export default {
         this.which = "Teacher";
       }
       // console.log(this.which);
+    },
+    changeToTeam() {
+      this.which = "Team";
     },
   },
 };

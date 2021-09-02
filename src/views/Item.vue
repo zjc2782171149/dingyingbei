@@ -81,7 +81,7 @@
       <!-- 上传文件 end -->
     </div>
     <div class="sign__add" @click="confirmMessage">保存</div>
-    <div class="sign__cancel">取消</div>
+    <div class="sign__cancel" @click="nextPage">下一页</div>
   </div>
 </template>
 
@@ -159,6 +159,9 @@ export default {
         this.itemList.fileLists.file2;
       console.log(this.$store.state.peopleMessageList);
       // console.log(this.$store.state.peopleMessageList.project.productionType);
+    },
+    nextPage() {
+      this.$emit("changePage");
     },
   },
 };
@@ -305,6 +308,7 @@ export default {
     text-align: center;
     background: #1c96d7;
     color: #fff;
+    font-size: 0.16rem;
     border-radius: 0.04rem;
     cursor: pointer;
   }
@@ -320,6 +324,7 @@ export default {
     text-align: center;
     background: #a2a2a2;
     color: #000;
+    font-size: 0.16rem;
     border-radius: 0.04rem;
     cursor: pointer;
   }

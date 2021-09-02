@@ -39,7 +39,7 @@
         />
       </div>
       <div class="input__add" @click="confirmMessage">保存</div>
-      <div class="input__cancel">取消</div>
+      <div class="input__cancel">提交报名信息</div>
     </div>
   </div>
 </template>
@@ -194,6 +194,7 @@ export default {
     text-align: center;
     background: #1c96d7;
     color: #fff;
+    font-size: 0.16rem;
     border-radius: 0.04rem;
     cursor: pointer;
   }
@@ -209,6 +210,7 @@ export default {
     text-align: center;
     background: #a2a2a2;
     color: #000;
+    font-size: 0.16rem;
     border-radius: 0.04rem;
     cursor: pointer;
   }

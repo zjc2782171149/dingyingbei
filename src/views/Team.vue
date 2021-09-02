@@ -77,7 +77,7 @@ export default {
     addTeamMember() {
       this.team.push({
         name: "",
-        job: "负责人",
+        job: "",
         college: "",
         xueli: "",
         project: "",
