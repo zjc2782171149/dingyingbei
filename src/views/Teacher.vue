@@ -187,7 +187,7 @@ export default {
   }
   &__add {
     position: absolute;
-    margin: 2rem 0.7rem 0.3rem 1.5rem;
+    margin: 1.9rem 0.7rem 0.3rem 1.5rem;
     width: 1.3rem;
     height: 0.4rem;
     line-height: 0.4rem;
@@ -203,7 +203,7 @@ export default {
   }
   &__cancel {
     position: absolute;
-    margin: 2rem 0.7rem 0.3rem 3.2rem;
+    margin: 1.9rem 0.7rem 0.3rem 3.2rem;
     width: 1.3rem;
     height: 0.4rem;
     line-height: 0.4rem;

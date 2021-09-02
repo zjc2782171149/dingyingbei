@@ -21,6 +21,7 @@
             >导师信息</span
           >
         </div>
+        <div class="shortcut__show">未登录</div>
         <div class="shortcut__hr"></div>
         <!-- <div></div>s -->
       </section>
@@ -55,7 +56,7 @@ export default {
   },
   data() {
     return {
-      which: "Team",
+      which: "Item",
     };
   },
   methods: {
@@ -120,6 +121,20 @@ body {
     margin: 0.1rem 0rem;
     height: 0.12rem;
     background: #eee;
+  }
+  &__show {
+    float: right;
+    margin-top: -0.3rem;
+    margin-right: 1.8rem;
+    font-size: 0.18rem;
+    width: 0.8rem;
+    height: 0.3rem;
+    line-height: 0.3rem;
+    text-align: center;
+    color: #fff;
+    background: grey;
+    border-radius: 0.04rem;
+    // border: 1px solid red;
   }
 }
 
