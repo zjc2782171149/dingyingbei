@@ -3,12 +3,22 @@
     <div class="mask__name">
       <div class="iconfont">&#xe741;</div>
       <div class="mask__text">真实姓名</div>
-      <input type="text" class="mask__input" placeholder="团队成员的真实姓名" />
+      <input
+        type="text"
+        class="mask__input"
+        placeholder="团队成员的真实姓名"
+        v-model="store.state.peopleMessageList.team[index].name"
+      />
     </div>
     <div class="mask__phone">
       <div class="iconfont">&#xe741;</div>
       <div class="mask__text">手机电话</div>
-      <input type="text" class="mask__input" placeholder="团队成员的手机号码" />
+      <input
+        type="text"
+        class="mask__input"
+        placeholder="团队成员的手机号码"
+        v-model="store.state.peopleMessageList.team[index].phone"
+      />
     </div>
     <div class="mask__number">
       <div class="iconfont">&#xe741;</div>
@@ -17,14 +27,33 @@
         type="text"
         class="mask__input mask__number__input"
         placeholder="团队成员的学号"
+        v-model="store.state.peopleMessageList.team[index].number"
       />
     </div>
     <div class="mask__type">
       <div class="iconfont mask__type__iconfont">&#xe741;</div>
       <div class="mask__text">学生类型</div>
-      <select name="" id="" class="mask__select mask__type__select">
+      <select
+        name=""
+        id=""
+        class="mask__select mask__type__select"
+        v-model="store.state.peopleMessageList.team[index].xueli"
+      >
         <option value="本科生">本科生</option>
         <option value="研究生">研究生</option>
+      </select>
+    </div>
+    <div class="mask__job">
+      <div class="iconfont mask__job__iconfont">&#xe741;</div>
+      <div class="mask__text">身份</div>
+      <select
+        name=""
+        id=""
+        class="mask__select mask__job__select"
+        v-model="store.state.peopleMessageList.team[index].job"
+      >
+        <option value="负责人">负责人</option>
+        <option value="成员">成员</option>
       </select>
     </div>
     <div class="mask__college">
@@ -34,6 +63,7 @@
         type="text"
         class="mask__input mask__college__input"
         placeholder="团队成员的学院"
+        v-model="store.state.peopleMessageList.team[index].college"
       />
     </div>
     <div class="mask__zhuanye">
@@ -43,6 +73,7 @@
         type="text"
         class="mask__input mask__zhuanye__input"
         placeholder="团队成员的专业"
+        v-model="store.state.peopleMessageList.team[index].project"
       />
     </div>
     <div class="mask__add" @click="cancelMask">添加</div>
@@ -51,8 +82,10 @@
 </template>
 
 <script>
+import { useStore } from "vuex";
 export default {
   name: "Mask",
+  props: ["team", "index"],
   data() {
     return {};
   },
@@ -60,7 +93,12 @@ export default {
   methods: {
     cancelMask() {
       this.$emit("cancelMask");
+      console.log(this.$store.state.peopleMessageList);
     },
+  },
+  setup() {
+    const store = useStore();
+    return { store };
   },
 };
 </script>
@@ -68,7 +106,7 @@ export default {
 <style lang="scss" scoped>
 .iconfont {
   position: absolute;
-  margin-top: 0.12rem;
+  margin-top: -0.02rem;
   font-size: 0.12rem;
   transform: scale(0.6);
   color: red;
@@ -132,7 +170,21 @@ export default {
     margin: 2.1rem 0;
     &__iconfont {
       position: absolute;
-      margin-top: 0.06rem;
+      // margin-top: 0.06rem;
+      font-size: 0.12rem;
+      color: red;
+    }
+    &__select {
+      width: 1.3rem;
+      color: #757575;
+    }
+  }
+  &__job {
+    position: absolute;
+    margin: 2.1rem 2rem;
+    &__iconfont {
+      position: absolute;
+      // margin-top: 0.06rem;
       font-size: 0.12rem;
       color: red;
     }

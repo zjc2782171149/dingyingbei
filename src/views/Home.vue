@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      which: "Item",
+      which: "Team",
     };
   },
   methods: {
@@ -83,10 +83,11 @@ body {
 }
 .all {
   position: relative;
+  width: 100%;
   height: 7.6rem;
   overflow-y: hidden;
   background: url(../assets/imgs/背景图.png) no-repeat;
-  background-size: cover;
+  background-size: 100%;
 }
 .frame {
   position: absolute;

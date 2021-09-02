@@ -2,48 +2,33 @@
   <div class="team">
     <h2 class="team__title">团队信息</h2>
     <div class="team__box">
-      <div class="team__member">
-        <div class="iconfont team__imgs">&#xe601;</div>
-        <div class="team__member__name">张三三三三三</div>
-        <div class="team__member__job">负责发的人工书法大赛夺冠</div>
-        <div class="team__member__college">数学与信息学院发打发士大夫</div>
-        <div class="team__member__xueli">本科发生发达省份的</div>
-        <div class="team__member__project">软件工程发射点发生发</div>
-        <div class="team__member__number">学号：11111111111111111111111</div>
-        <div class="team__member__phone">联系方式：111111111111111111111</div>
-        <div class="iconfont team__imgs2" @click="openMaskShow">&#xe604;</div>
-      </div>
-      <div class="team__member">
-        <div class="iconfont team__imgs">&#xe601;</div>
-        <div class="team__member__name">张三</div>
-        <div class="team__member__job">负责人</div>
-        <div class="team__member__college">数学与信息学院</div>
-        <div class="team__member__xueli">本科</div>
-        <div class="team__member__project">软件工程</div>
-        <div class="team__member__number">学号：</div>
-        <div class="team__member__phone">联系方式：</div>
-        <div class="iconfont team__imgs2" @click="openMaskShow">&#xe604;</div>
-      </div>
-      <div class="team__member">
-        <div class="iconfont team__imgs">&#xe601;</div>
-        <div class="team__member__name">张三</div>
-        <div class="team__member__job">负责人</div>
-        <div class="team__member__college">数学与信息学院</div>
-        <div class="team__member__xueli">本科</div>
-        <div class="team__member__project">软件工程</div>
-        <div class="team__member__number">学号：</div>
-        <div class="team__member__phone">联系方式：</div>
-        <div class="iconfont team__imgs2" @click="openMaskShow">&#xe604;</div>
+      <div class="team__member" v-for="(item, index) in team" :key="item.name">
+        <div class="iconfont team__imgPeople">&#xe601;</div>
+
+        <div class="team__member__name">姓名：{{ item.name }}</div>
+        <!-- <div class="team__member__job">{{ item.job }}</div> -->
+
+        <div class="team__member__college">学院：{{ item.college }}</div>
+
+        <div class="team__member__xueli">学历：{{ item.xueli }}</div>
+
+        <div class="team__member__project">专业：{{ item.project }}</div>
+        <div class="team__member__number">学号：{{ item.number }}</div>
+        <div class="team__member__phone">联系方式：{{ item.phone }}</div>
+        <div class="iconfont team__imgCopy" @click="openMaskShow">&#xe604;</div>
+        <div class="iconfont team__imgDelete" @click="deleteMember(index)">
+          &#xe732;
+        </div>
+        <div class="maskItem" v-show="addShow">
+          <div class="maskItem__frame">
+            <Mask @cancelMask="closeMask" :team="item" :index="index" />
+          </div>
+        </div>
       </div>
     </div>
-    <div class="team__addMember" @click="openMaskShow">
+    <div class="team__addMember" @click="addTeamMember">
       <div class="iconfont team__add">&#xe641;</div>
       <div class="team__character">添加团队成员</div>
-    </div>
-  </div>
-  <div class="maskItem" v-show="addShow">
-    <div class="maskItem__frame">
-      <Mask @cancelMask="closeMask" />
     </div>
   </div>
 </template>
@@ -58,21 +43,61 @@ export default {
   },
   data() {
     return {
-      addShow: false,
+      addShow: true,
+      team: [],
     };
   },
   methods: {
+    // 蒙层的展示 start
     openMaskShow() {
       this.addShow = !this.addShow;
+      // console.log(this.$store.state);
     },
-    closeMask() {
+    closeMask(data) {
       this.addShow = false;
+      // console.log(data);
     },
+    // 蒙层的展示 end
+    // 团队人员的增删 start
+    addTeamMember() {
+      this.team.push({
+        name: "姓名221112",
+        job: "职称",
+        college: "学院",
+        xueli: "学历",
+        project: "专业",
+        number: "",
+        phone: "",
+      });
+      // console.log();
+    },
+    deleteMember(indexMember) {
+      this.team.forEach((item, index) => {
+        if (index === indexMember) {
+          this.team.splice(index, 1);
+        }
+      });
+    },
+    // 团队人员的增删 end
+    // changeVuex() {
+    //   console.log("success");
+    // },
+  },
+  mounted() {
+    this.openMaskShow();
+    // console.log(this.$store.state.peopleMessageList.team);
+  },
+  updated() {
+    // console.log("fsfsf");
+    this.$store.state.peopleMessageList.team = this.team;
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.flip-list-move {
+  transition: transform 1s;
+}
 .iconfont {
   position: absolute;
   margin-top: 0.12rem;
@@ -87,6 +112,7 @@ export default {
     height: 0.4rem;
     line-height: 0.4rem;
     margin-left: 0.1rem;
+    margin-bottom: 0.1rem;
   }
   &__box {
     overflow-y: scroll;
@@ -107,60 +133,65 @@ export default {
       top: 0.21rem;
       left: 1rem;
       font-size: 0.17rem;
-      width: 0.69rem;
+      width: 2rem;
       height: 0.35rem;
       line-height: 0.35rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      // border: 1px solid #bbbbbb;
     }
     &__job {
       position: absolute;
       top: 0.28rem;
       left: 1.73rem;
-      width: 0.7rem;
+      width: 2rem;
       height: 0.25rem;
       line-height: 0.25rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      // border: 1px solid #bbbbbb;
     }
     &__college {
       position: absolute;
-      top: 0.6rem;
+      top: 0.55rem;
       left: 1rem;
-      width: 1.5rem;
+      width: 2rem;
       height: 0.25rem;
       line-height: 0.25rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      // border: 1px solid #bbbbbb;
     }
     &__xueli {
       position: absolute;
-      top: 0.85rem;
+      top: 0.78rem;
       left: 1rem;
-      width: 0.4rem;
+      width: 2rem;
       height: 0.25rem;
       line-height: 0.25rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      // border: 1px solid #bbbbbb;
     }
     &__project {
       position: absolute;
-      top: 0.85rem;
-      left: 1.4rem;
-      width: 0.7rem;
+      top: 1.02rem;
+      left: 1rem;
+      width: 2rem;
       height: 0.25rem;
       line-height: 0.25rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      // border: 1px solid #bbbbbb;
     }
     &__number {
       position: absolute;
-      top: 0.28rem;
+      top: 0.5rem;
       left: 3.8rem;
       width: 1.8rem;
       height: 0.25rem;
@@ -171,7 +202,7 @@ export default {
     }
     &__phone {
       position: absolute;
-      top: 0.7rem;
+      top: 0.9rem;
       left: 3.8rem;
       width: 1.83rem;
       height: 0.25rem;
@@ -200,15 +231,24 @@ export default {
     // font-weight: bolder;
     left: 0.3rem;
   }
-  &__imgs {
+  &__imgPeople {
     position: absolute;
-    font-size: 0.4rem;
-    top: -0.1rem;
-    left: 0.24rem;
+    font-size: 0.6rem;
+    // top: 0.1rem;
+    left: 0.22rem;
   }
-  &__imgs2 {
+  &__imgCopy {
     position: absolute;
     margin-top: -0.01rem;
+    right: 0.08rem;
+    font-size: 0.18rem;
+    cursor: pointer;
+    height: 0.35rem;
+    line-height: 0.35rem;
+  }
+  &__imgDelete {
+    position: absolute;
+    bottom: 0;
     right: 0.08rem;
     font-size: 0.18rem;
     cursor: pointer;

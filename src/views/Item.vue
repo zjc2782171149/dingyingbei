@@ -55,6 +55,7 @@
       <button class="sign__xiugaibtn" @click="xiugaibtn1">上传文件</button>
       <!-- 显示文件路径 -->
       <div class="sign__filetext">{{ filepath1 }}</div>
+      <div class="sign__filePath">{{ file1Path }}</div>
       <input
         type="file"
         ref="files1"
@@ -70,6 +71,7 @@
       <button class="sign__xiugaibtn" @click="xiugaibtn2">上传文件</button>
       <!-- 显示文件路径 -->
       <div class="sign__filetext">{{ filepath2 }}</div>
+      <div class="sign__filePath">{{ file2Path }}</div>
       <input
         type="file"
         ref="files2"
@@ -78,7 +80,7 @@
       />
       <!-- 上传文件 end -->
     </div>
-    <div class="sign__add" @click="confirmMessage">确认</div>
+    <div class="sign__add" @click="confirmMessage">保存</div>
     <div class="sign__cancel">取消</div>
   </div>
 </template>
@@ -88,8 +90,8 @@ export default {
   name: "Item",
   data() {
     return {
-      haveFile1: "",
-      haveFile2: "",
+      file1Path: "",
+      file2Path: "",
       itemList: {
         teamName: "",
         productionName: "",
@@ -107,16 +109,16 @@ export default {
   computed: {
     filepath1() {
       // return this.$refs.files.value;
-      if (this.haveFile1) {
-        return "已选择文件";
+      if (this.file1Path) {
+        return "再次点击可重新上传";
       } else {
         return "未选择文件";
       }
     },
     filepath2() {
       // return this.$refs.files.value;
-      if (this.haveFile2) {
-        return "已选择文件";
+      if (this.file2Path) {
+        return "再次点击可重新上传";
       } else {
         return "未选择文件";
       }
@@ -130,14 +132,14 @@ export default {
       this.$refs.files2.click(); // 绑定上传文件的事件
     },
     getFile1(event) {
-      this.haveFile1 = this.$refs.files1;
+      this.file1Path = event.target.files[0].name;
       const file = event.target.files;
       this.itemList.fileLists.file1 = file;
       console.log(file);
       // console.log(this.$store.state.peopleMessageList);
     },
     getFile2(event) {
-      this.haveFile2 = this.$refs.files2;
+      this.file2Path = event.target.files[0].name;
       const file = event.target.files;
       this.itemList.fileLists.file2 = file;
       console.log(file);
@@ -156,6 +158,7 @@ export default {
       this.$store.state.peopleMessageList.project.fileLists.file2 =
         this.itemList.fileLists.file2;
       console.log(this.$store.state.peopleMessageList);
+      // console.log(this.$store.state.peopleMessageList.project.productionType);
     },
   },
 };
@@ -273,11 +276,25 @@ export default {
   }
   &__filetext {
     display: inline-block;
-    top: 0.01rem;
-    margin: 0 0.25rem;
-    width: 1rem;
+    font-weight: bolder;
+    margin: 0 0.2rem 0 0.25rem;
+    width: 1.12rem;
     height: 0.26rem;
-    border: none;
+    line-height: 0.26rem;
+    cursor: default;
+    // border: 1px solid red;
+  }
+  &__filePath {
+    display: inline-block;
+    position: absolute;
+    top: 0.03rem;
+    width: 2.5rem;
+    height: 0.26rem;
+    line-height: 0.26rem;
+    // border: 1px solid red;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   &__add {
     position: absolute;

@@ -3,28 +3,42 @@
     <h2 class="teacher__title">指导老师</h2>
     <div class="choose">
       <div class="iconfont choose__imgs">&#xe601;</div>
-      <div class="choose__name">林钻辉</div>
-      <div class="choose__college">创新创业学院</div>
-      <div class="choose__job">副教授</div>
-      <div class="iconfont choose__imgs2">&#xe604;</div>
+      <div class="choose__name">{{ teacherShowMessage.name }}</div>
+      <div class="choose__college">{{ teacherShowMessage.college }}</div>
+      <div class="choose__job">{{ teacherShowMessage.job }}</div>
     </div>
     <div class="input">
       <div class="input__name">
         <div class="iconfont iconimg">&#xe741;</div>
         <div class="input__title">真实姓名</div>
-        <input type="text" class="input__Input" />
+        <input
+          type="text"
+          class="input__Input"
+          v-model="teacher.name"
+          placeholder="真实姓名"
+        />
       </div>
       <div class="input__college">
         <div class="iconfont iconimg">&#xe741;</div>
         <div class="input__title">所在学院</div>
-        <input type="text" class="input__Input" />
+        <input
+          type="text"
+          class="input__Input"
+          v-model="teacher.college"
+          placeholder="所在学院"
+        />
       </div>
       <div class="input__job">
         <div class="iconfont iconimg">&#xe741;</div>
         <div class="input__title">老师职称</div>
-        <input type="text" class="input__Input" />
+        <input
+          type="text"
+          class="input__Input"
+          v-model="teacher.job"
+          placeholder="老师职称"
+        />
       </div>
-      <div class="input__add" @click="confirmMessage">确认</div>
+      <div class="input__add" @click="confirmMessage">保存</div>
       <div class="input__cancel">取消</div>
     </div>
   </div>
@@ -33,9 +47,33 @@
 <script>
 export default {
   name: "Teacher",
+  data() {
+    return {
+      teacher: {
+        name: "",
+        college: "",
+        job: "",
+      },
+      teacherShowMessage: {
+        name: "老师名称",
+        college: "所在学院",
+        job: "职称",
+      },
+    };
+  },
   methods: {
     confirmMessage() {
-      console.log("confirm");
+      this.teacherShowMessage.name = this.teacher.name;
+      this.teacherShowMessage.college = this.teacher.college;
+      this.teacherShowMessage.job = this.teacher.job;
+      // 上面是choose框的展示，点击确认才关联上去并显示
+      this.$store.state.peopleMessageList.teacher.name = this.teacher.name;
+      this.$store.state.peopleMessageList.teacher.college =
+        this.teacher.college;
+      this.$store.state.peopleMessageList.teacher.job = this.teacher.job;
+      // 上面是关联到vuex中数据，点击确认才关联过去
+      // console.log(this.teacher);
+      // console.log(this.$store.state.peopleMessageList);
     },
   },
 };
@@ -75,28 +113,43 @@ export default {
     left: 0.2rem;
   }
   &__name {
-    position: relative;
+    position: absolute;
     top: 0.32rem;
     left: 1.3rem;
     font-size: 0.26rem;
+    width: 1.26rem;
+    // border: 1px solid red;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   &__college {
-    position: relative;
-    top: 0.42rem;
+    position: absolute;
+    top: 0.75rem;
     left: 1.3rem;
     font-size: 0.15rem;
+    width: 2.3rem;
+    // border: 1px solid red;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   &__job {
-    position: relative;
-    top: 0.01rem;
-    left: 2.5rem;
+    position: absolute;
+    top: 0.45rem;
+    left: 2.65rem;
     font-size: 0.2rem;
+    width: 1rem;
+    // border: 1px solid red;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   &__imgs2 {
     float: right;
     font-size: 0.2rem;
-    margin-top: -0.58rem;
-    margin-right: 0.13rem;
+    margin-top: 0.1rem;
+    margin-right: 0.1rem;
     cursor: pointer;
   }
 }
