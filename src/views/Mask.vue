@@ -7,7 +7,7 @@
         type="text"
         class="mask__input"
         placeholder="团队成员的真实姓名"
-        v-model="store.state.peopleMessageList.team[index].name"
+        v-model="team.name"
       />
     </div>
     <div class="mask__phone">
@@ -17,7 +17,7 @@
         type="text"
         class="mask__input"
         placeholder="团队成员的手机号码"
-        v-model="store.state.peopleMessageList.team[index].phone"
+        v-model="team.phone"
       />
     </div>
     <div class="mask__number">
@@ -27,7 +27,7 @@
         type="text"
         class="mask__input mask__number__input"
         placeholder="团队成员的学号"
-        v-model="store.state.peopleMessageList.team[index].number"
+        v-model="team.number"
       />
     </div>
     <div class="mask__type">
@@ -37,7 +37,7 @@
         name=""
         id=""
         class="mask__select mask__type__select"
-        v-model="store.state.peopleMessageList.team[index].xueli"
+        v-model="team.xueli"
       >
         <option value="本科生">本科生</option>
         <option value="研究生">研究生</option>
@@ -50,7 +50,7 @@
         name=""
         id=""
         class="mask__select mask__job__select"
-        v-model="store.state.peopleMessageList.team[index].job"
+        v-model="team.job"
       >
         <option value="负责人">负责人</option>
         <option value="成员">成员</option>
@@ -63,7 +63,7 @@
         type="text"
         class="mask__input mask__college__input"
         placeholder="团队成员的学院"
-        v-model="store.state.peopleMessageList.team[index].college"
+        v-model="team.college"
       />
     </div>
     <div class="mask__zhuanye">
@@ -73,7 +73,7 @@
         type="text"
         class="mask__input mask__zhuanye__input"
         placeholder="团队成员的专业"
-        v-model="store.state.peopleMessageList.team[index].project"
+        v-model="team.project"
       />
     </div>
     <div class="mask__add" @click="cancelMask">添加</div>
@@ -85,15 +85,42 @@
 import { useStore } from "vuex";
 export default {
   name: "Mask",
-  props: ["team", "index"],
+  props: [],
   data() {
-    return {};
+    return {
+      // indexMask: -1,
+      team: "",
+    };
   },
   computed: {},
+  created() {
+    if (
+      this.$store.state.peopleMessageList.team[
+        this.$store.state.indexForMask
+      ] != null
+    ) {
+      this.team =
+        this.$store.state.peopleMessageList.team[
+          this.$store.state.indexForMask
+        ];
+      // console.log(
+      //   this.$store.state.peopleMessageList.team[this.$store.state.indexForMask]
+      // );
+    }
+  },
+  mounted() {
+    // this.team =
+    //   this.$store.state.peopleMessageList.team[this.$store.state.indexForMask];
+  },
+  updated() {
+    // console.log("updated");
+  },
   methods: {
     cancelMask() {
       this.$emit("cancelMask");
-      console.log(this.$store.state.peopleMessageList);
+      this.$store.commit("maskChange", this.team);
+      // console.log(this.$store.state.peopleMessageList.team);
+      // console.log(this.$store.state.indexForMask);
     },
   },
   setup() {
@@ -181,7 +208,7 @@ export default {
   }
   &__job {
     position: absolute;
-    margin: 2.1rem 2rem;
+    margin: 2.1rem 0rem 2.1rem 3.5rem;
     &__iconfont {
       position: absolute;
       // margin-top: 0.06rem;

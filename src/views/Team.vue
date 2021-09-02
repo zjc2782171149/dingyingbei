@@ -2,7 +2,7 @@
   <div class="team">
     <h2 class="team__title">团队信息</h2>
     <div class="team__box">
-      <div class="team__member" v-for="(item, index) in team" :key="item.name">
+      <div class="team__member" v-for="(item, index) in team" :key="index">
         <div class="iconfont team__imgPeople">&#xe601;</div>
 
         <div class="team__member__name">姓名：{{ item.name }}</div>
@@ -15,13 +15,15 @@
         <div class="team__member__project">专业：{{ item.project }}</div>
         <div class="team__member__number">学号：{{ item.number }}</div>
         <div class="team__member__phone">联系方式：{{ item.phone }}</div>
-        <div class="iconfont team__imgCopy" @click="openMaskShow">&#xe604;</div>
+        <div class="iconfont team__imgCopy" @click="openMaskShow(index)">
+          &#xe604;
+        </div>
         <div class="iconfont team__imgDelete" @click="deleteMember(index)">
           &#xe732;
         </div>
-        <div class="maskItem" v-show="addShow">
+        <div class="maskItem" v-if="addShow">
           <div class="maskItem__frame">
-            <Mask @cancelMask="closeMask" :team="item" :index="index" />
+            <Mask @cancelMask="closeMask" :teamm="item" />
           </div>
         </div>
       </div>
@@ -43,14 +45,25 @@ export default {
   },
   data() {
     return {
-      addShow: true,
-      team: [],
+      addShow: false,
+      team: [
+        {
+          name: "",
+          job: "",
+          college: "",
+          xueli: "",
+          project: "",
+          number: "",
+          phone: "",
+        },
+      ],
     };
   },
   methods: {
     // 蒙层的展示 start
-    openMaskShow() {
+    openMaskShow(index) {
       this.addShow = !this.addShow;
+      this.$store.commit("changeIndex", index);
       // console.log(this.$store.state);
     },
     closeMask(data) {
@@ -61,15 +74,14 @@ export default {
     // 团队人员的增删 start
     addTeamMember() {
       this.team.push({
-        name: "姓名221112",
-        job: "职称",
-        college: "学院",
-        xueli: "学历",
-        project: "专业",
+        name: "3333",
+        job: "",
+        college: "",
+        xueli: "",
+        project: "",
         number: "",
         phone: "",
       });
-      // console.log();
     },
     deleteMember(indexMember) {
       this.team.forEach((item, index) => {
@@ -78,18 +90,29 @@ export default {
         }
       });
     },
-    // 团队人员的增删 end
-    // changeVuex() {
-    //   console.log("success");
-    // },
+    // 团队人员的增删 start
+  },
+  created() {
+    this.team = this.$store.state.peopleMessageList.team;
   },
   mounted() {
-    this.openMaskShow();
+    // this.openMaskShow();
+
+    console.log("mounted");
     // console.log(this.$store.state.peopleMessageList.team);
   },
   updated() {
     // console.log("fsfsf");
+    this.$store.commit("teamChange", this.team);
     this.$store.state.peopleMessageList.team = this.team;
+    // console.log(this.team);
+  },
+  watch: {
+    team(newValue, oldValue) {
+      // this.$store.state.peopleMessageList.team = newValue;
+      // console.log("team change");
+      // console.log(newValue);
+    },
   },
 };
 </script>
