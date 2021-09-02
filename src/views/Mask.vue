@@ -77,19 +77,26 @@
       />
     </div>
     <div class="mask__add" @click="cancelMask">添加</div>
-    <div class="mask__cancel" @click="cancelMask">取消</div>
+    <div class="mask__cancel" @click="falseMask">取消</div>
   </div>
 </template>
 
 <script>
-import { useStore } from "vuex";
 export default {
   name: "Mask",
   props: [],
   data() {
     return {
-      // indexMask: -1,
       team: "",
+      old: {
+        name: "",
+        job: "",
+        college: "",
+        xueli: "",
+        project: "",
+        number: "",
+        phone: "",
+      },
     };
   },
   computed: {},
@@ -103,29 +110,24 @@ export default {
         this.$store.state.peopleMessageList.team[
           this.$store.state.indexForMask
         ];
-      // console.log(
-      //   this.$store.state.peopleMessageList.team[this.$store.state.indexForMask]
-      // );
+      this.old.name = this.team.name;
+      this.old.job = this.team.job;
+      this.old.college = this.team.college;
+      this.old.xueli = this.team.xueli;
+      this.old.project = this.team.project;
+      this.old.number = this.team.number;
+      this.old.phone = this.team.phone;
     }
-  },
-  mounted() {
-    // this.team =
-    //   this.$store.state.peopleMessageList.team[this.$store.state.indexForMask];
-  },
-  updated() {
-    // console.log("updated");
   },
   methods: {
     cancelMask() {
       this.$emit("cancelMask");
       this.$store.commit("maskChange", this.team);
-      // console.log(this.$store.state.peopleMessageList.team);
-      // console.log(this.$store.state.indexForMask);
     },
-  },
-  setup() {
-    const store = useStore();
-    return { store };
+    falseMask() {
+      this.$emit("cancelMask");
+      this.$store.commit("maskChange", this.old);
+    },
   },
 };
 </script>

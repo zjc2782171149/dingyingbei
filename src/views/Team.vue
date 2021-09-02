@@ -23,8 +23,11 @@
         </div>
         <div class="maskItem" v-if="addShow">
           <div class="maskItem__frame">
-            <Mask @cancelMask="closeMask" :teamm="item" />
+            <Mask @cancelMask="closeMask" />
           </div>
+        </div>
+        <div class="team__job">
+          <div class="team__job__job">{{ item.job }}</div>
         </div>
       </div>
     </div>
@@ -66,16 +69,15 @@ export default {
       this.$store.commit("changeIndex", index);
       // console.log(this.$store.state);
     },
-    closeMask(data) {
+    closeMask() {
       this.addShow = false;
-      // console.log(data);
     },
     // 蒙层的展示 end
     // 团队人员的增删 start
     addTeamMember() {
       this.team.push({
-        name: "3333",
-        job: "",
+        name: "",
+        job: "负责人",
         college: "",
         xueli: "",
         project: "",
@@ -96,23 +98,14 @@ export default {
     this.team = this.$store.state.peopleMessageList.team;
   },
   mounted() {
-    // this.openMaskShow();
-
     console.log("mounted");
     // console.log(this.$store.state.peopleMessageList.team);
   },
   updated() {
     // console.log("fsfsf");
     this.$store.commit("teamChange", this.team);
-    this.$store.state.peopleMessageList.team = this.team;
+    // this.$store.state.peopleMessageList.team = this.team;
     // console.log(this.team);
-  },
-  watch: {
-    team(newValue, oldValue) {
-      // this.$store.state.peopleMessageList.team = newValue;
-      // console.log("team change");
-      // console.log(newValue);
-    },
   },
 };
 </script>
@@ -129,6 +122,7 @@ export default {
 }
 .team {
   margin: 0.4rem 0.8rem 0.4rem 3rem;
+  // border: 1px solid #bbbbbb;
   &__title {
     position: relative;
     width: 1.4rem;
@@ -159,18 +153,6 @@ export default {
       width: 2rem;
       height: 0.35rem;
       line-height: 0.35rem;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      // border: 1px solid #bbbbbb;
-    }
-    &__job {
-      position: absolute;
-      top: 0.28rem;
-      left: 1.73rem;
-      width: 2rem;
-      height: 0.25rem;
-      line-height: 0.25rem;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -233,6 +215,22 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+    }
+  }
+  &__job {
+    position: absolute;
+    top: 0.6rem;
+    right: -1.5rem;
+    width: 1rem;
+    height: 4rem;
+    line-height: 0.25rem;
+    font-size: 0.25rem;
+    color: #95a5a6;
+    overflow-y: scroll;
+    // border: 1px solid #bbbbbb;
+    &__every {
+      position: relative;
+      margin: 0 0 1.6rem 0;
     }
   }
   &__addMember {
