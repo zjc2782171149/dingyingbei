@@ -134,6 +134,7 @@ body {
     color: #fff;
     background: grey;
     border-radius: 0.04rem;
+    cursor: pointer;
     // border: 1px solid red;
   }
 }
