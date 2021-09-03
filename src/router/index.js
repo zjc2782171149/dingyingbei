@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-// import Home from '../views/Home.vue'
 
 const routes = [
   {
@@ -15,18 +14,20 @@ const routes = [
   {
     path: '/LoginPasswd',
     name: 'LoginPasswd',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/LoginPasswd.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/LoginPasswd.vue'),
+    beforeEnter: (to, from, next) => {
+      const isLogin = localStorage.isLogin;
+      isLogin ? next({ name: "Home" }) : next();
+    }
   },
   {
     path: '/LoginCode',
     name: 'LoginCode',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/LoginCode.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/LoginCode.vue'),
+    beforeEnter: (to, from, next) => {
+      const isLogin = localStorage.isLogin;
+      isLogin ? next({ name: "Home" }) : next();
+    }
   }
 ]
 
@@ -35,14 +36,10 @@ const router = createRouter({
   routes
 })
 
+// 进入报名系统前，必须进入两个登录页面或注册页面
 router.beforeEach((to, from, next) => {
-  // console.log(to, from);
-  const isLogin = false;
-  if (isLogin || to.name === 'LoginPasswd') {
-    next();
-  } else {
-    next({ name: "LoginPasswd" })
-  }
+  const isLogin = localStorage.isLogin;
+  (isLogin || to.name === 'LoginPasswd' || to.name === 'LoginCode' || to.name === 'Register') ? next() : next({ name: "LoginPasswd" });
 })
 
 export default router

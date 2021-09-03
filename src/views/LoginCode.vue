@@ -52,6 +52,7 @@
         >
           登录
         </button>
+        <div class="login__fail" v-show="loginSuccess">登陆失败</div>
       </div>
     </div>
     <div class="topimg"><img src="../assets/imgs/1.png" alt="" /></div>
@@ -69,15 +70,13 @@ export default {
   data() {
     return {
       personMessage: {
-        name: "", // 昵称
-        id: "", // 登录名
         phone: "", // 手机号
-        password: "", // 密码
         verifyCode: "", // 验证码
         disabled: false, // 是否可点击
         error: { phone: "" }, // 验证提示信息
         btnTitle: "获取验证码",
       },
+      loginSuccess: false,
     };
   },
   computed: {
@@ -92,9 +91,9 @@ export default {
   },
   methods: {
     validatePhone() {
-      console.log(this.personMessage.error.phone);
+      // console.log(this.personMessage.error.phone);
       // 判断输入的手机号是否合法
-      // console.log(data);
+
       if (!this.personMessage.phone) {
         console.log("不能为空");
         this.personMessage.error = { phone: "手机号码不能为空" };
@@ -129,7 +128,6 @@ export default {
 
       if (this.validatePhone()) {
         // 检测手机号是否合法
-
         this.validateBtn(); // 改变点击按钮样式
         axios
           .post("/api/posts/sms_send", {
@@ -156,9 +154,18 @@ export default {
         )
         .then((res) => {
           console.log(res);
+          if (res?.data?.errno === 0) {
+            localStorage.isLogin = true;
+            this.$router.push({ name: "Home" });
+          }
         })
         .catch((err) => {
           console.log(err);
+          this.loginSuccess = true;
+          setTimeout(() => {
+            this.loginSuccess = false;
+          }, 2000);
+          // alert("登陆失败");
         });
       // this.$axios
       //   .post("/api/posts/sms_back", {
@@ -330,6 +337,12 @@ body {
   }
   &__login-button:hover {
     background: #19c3ff;
+  }
+  &__fail {
+    position: absolute;
+    margin-left: 1.97rem;
+    font-size: 0.16rem;
+    color: red;
   }
   &__error {
     position: absolute;

@@ -53,6 +53,7 @@
         >
           登录
         </button>
+        <div class="login__fail" v-show="loginSuccess">登陆失败</div>
       </div>
     </div>
     <div class="topimg"><img src="../assets/imgs/1.png" alt="" /></div>
@@ -74,7 +75,7 @@ export default {
         phone: "", // 手机号
         password: "", // 密码
       },
-      isAllowButton: false,
+      loginSuccess: false,
     };
   },
   computed: {
@@ -103,10 +104,20 @@ export default {
         )
         .then((res) => {
           console.log(res);
+          if (res?.data?.errno === 0) {
+            localStorage.isLogin = true;
+            this.$router.push({ name: "Home" });
+          }
         })
         .catch((err) => {
           console.log(err);
+          this.loginSuccess = true;
+          setTimeout(() => {
+            this.loginSuccess = false;
+          }, 2000);
+          // alert("登陆失败");
         });
+
       // this.$axios
       //   .post("/api/posts/sms_back", {
       //     phone: this.phone,
@@ -264,6 +275,12 @@ body {
   }
   &__login-button:hover {
     background: #19c3ff;
+  }
+  &__fail {
+    position: absolute;
+    margin-left: 1.97rem;
+    font-size: 0.16rem;
+    color: red;
   }
   &__error {
     position: absolute;
