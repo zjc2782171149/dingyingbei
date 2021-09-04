@@ -46,40 +46,56 @@
         class="sign__select"
         v-model="itemList.typeTwo"
         v-show="optionArray.aa"
+        @change="otherInputShow"
+        autocomplete="off"
       >
-        <option value="机械与控制">机械与控制</option>
+        <option value="机械与控制" selected>机械与控制</option>
         <option value="信息技术">信息技术</option>
         <option value="生命科学">生命科学</option>
         <option value="能源化工">能源化工</option>
         <option value="其他">其他</option>
       </select>
+      <div class="sign__input--select" v-show="optionShow1">
+        <span>请填写:</span>
+        <input type="text" v-model="itemList.typeTwo" />
+      </div>
       <select
         name=""
         id=""
         class="sign__select"
         v-model="itemList.typeTwo"
         v-show="optionArray.bb"
+        @change="otherInputShow"
       >
-        <option value="机械与控制">机械与控制</option>
+        <option value="机械与控制" selected>机械与控制</option>
         <option value="信息技术">信息技术</option>
         <option value="生命科学">生命科学</option>
         <option value="能源化工">能源化工</option>
         <option value="其他">其他</option>
       </select>
+      <div class="sign__input--select" v-show="optionShow2">
+        <span>请填写:</span>
+        <input type="text" v-model="itemList.typeTwo" />
+      </div>
       <select
         name=""
         id=""
         class="sign__select"
         v-model="itemList.typeTwo"
         v-show="optionArray.cc"
+        @change="otherInputShow"
       >
-        <option value="机械与控制">机械与控制</option>
+        <option value="机械与控制" selected>机械与控制</option>
         <option value="信息技术">信息技术</option>
         <option value="生命科学">生命科学</option>
         <option value="能源化工">能源化工</option>
         <option value="数理">数理</option>
         <option value="其他">其他</option>
       </select>
+      <div class="sign__input--select" v-show="optionShow3">
+        <span>请填写:</span>
+        <input type="text" v-model="itemList.typeTwo" />
+      </div>
       <select
         name=""
         id=""
@@ -169,7 +185,7 @@ export default {
         teamName: "",
         productionName: "",
         typeOne: "",
-        typeTwo: "",
+        typeTwo: "机械与控制",
         fileLists: {
           file1: "",
           file2: "",
@@ -184,6 +200,9 @@ export default {
         ff: false,
         gg: false,
       },
+      optionShow1: false,
+      optionShow2: false,
+      optionShow3: false,
     };
   },
   computed: {
@@ -299,40 +318,95 @@ export default {
       console.log(this.itemList.typeOne);
       switch (this.itemList.typeOne) {
         case "A类：实用技术发明类":
+          this.optionShow1 = false;
+          this.optionShow2 = false;
+          this.optionShow3 = false;
+          this.itemList.typeTwo = "";
           this.optionArray.aa = true;
           this.elseChangeFalse("aa");
           break;
         case "B类：创新创意设计类":
+          this.optionShow1 = false;
+          this.optionShow2 = false;
+          this.optionShow3 = false;
+          this.itemList.typeTwo = "";
           this.optionArray.bb = true;
           this.elseChangeFalse("bb");
           break;
         case "C类：科学实践论文类":
+          this.optionShow1 = false;
+          this.optionShow2 = false;
+          this.optionShow3 = false;
+          this.itemList.typeTwo = "";
           this.optionArray.cc = true;
           this.elseChangeFalse("cc");
           break;
         case "D类：文学作品类":
-          this.optionArray.dd = true;
+          this.optionShow1 = false;
+          this.optionShow2 = false;
+          this.optionShow3 = false;
           this.itemList.typeTwo = "";
+          this.optionArray.dd = false;
           this.elseChangeFalse("dd");
           break;
         case "E类：广告创意设计类":
-          this.optionArray.ee = true;
+          this.optionShow1 = false;
+          this.optionShow2 = false;
+          this.optionShow3 = false;
           this.itemList.typeTwo = "";
+          this.optionArray.ee = false;
           this.elseChangeFalse("ee");
           break;
         case "F类：商业计划类":
-          this.optionArray.ff = true;
+          this.optionShow1 = false;
+          this.optionShow2 = false;
+          this.optionShow3 = false;
           this.itemList.typeTwo = "";
+          this.optionArray.ff = false;
           this.elseChangeFalse("ff");
           break;
 
         default:
-          this.elseChangeFalse("gg");
+          this.optionShow1 = false;
+          this.optionShow2 = false;
+          this.optionShow3 = false;
           this.itemList.typeTwo = "";
-          this.optionArray.gg = true;
+          this.optionArray.gg = false;
+          this.elseChangeFalse("gg");
       }
     },
     // 改变不同select的不同option选项 end
+    // ABC三类，typeTwo为其他时才显示输入框 start
+    otherInputShow() {
+      console.log(this.itemList.typeOne, this.itemList.typeTwo);
+      if (
+        this.itemList.typeTwo === "其他" &&
+        this.itemList.typeOne === "A类：实用技术发明类"
+      ) {
+        this.optionShow1 = true;
+        this.optionShow2 = false;
+        this.optionShow3 = false;
+      } else if (
+        this.itemList.typeTwo === "其他" &&
+        this.itemList.typeOne === "B类：创新创意设计类"
+      ) {
+        this.optionShow1 = false;
+        this.optionShow2 = true;
+        this.optionShow3 = false;
+      } else if (
+        this.itemList.typeTwo === "其他" &&
+        this.itemList.typeOne === "C类：科学实践论文类"
+      ) {
+        this.optionShow1 = false;
+        this.optionShow2 = false;
+        this.optionShow3 = true;
+      } else {
+        this.optionShow1 = false;
+        this.optionShow2 = false;
+        this.optionShow3 = false;
+      }
+    },
+    // ABC三类，typeTwo为其他时才显示输入框 end
   },
 };
 </script>
@@ -417,14 +491,36 @@ export default {
     padding-left: 0.1rem;
     font-size: 0.13rem;
     box-sizing: border-box;
+    &--select input {
+      position: absolute;
+      // display: inline-block;
+      left: 5.8rem;
+      top: 0.06rem;
+      margin-left: 0.08rem;
+      padding-left: 0.05rem;
+      padding-bottom: 0rem;
+      width: 1rem;
+      height: 0.25rem;
+      line-height: 0.25rem;
+      border: none;
+      border-bottom: 0.01rem solid #bbbbbb;
+      outline: none;
+    }
+    &--select span {
+      position: absolute;
+      display: inline-block;
+      width: 0.7rem;
+      left: 5.4rem;
+      top: 0.11rem;
+    }
   }
   &__input:hover {
     border: 0.01rem solid black;
   }
   &__select {
-    width: 2.5rem;
+    width: 1.8rem;
     height: 0.35rem;
-    line-height: 0.45rem;
+    line-height: 0.35rem;
     border-radius: 0.1rem;
     border: 0.01rem solid #bbbbbb;
     outline: none;
