@@ -104,8 +104,10 @@ export default {
         )
         .then((res) => {
           console.log(res);
+          console.log("成功发送用户名和密码到服务器");
           if (res?.data?.errno === 0) {
             localStorage.isLogin = true;
+            alert("登录成功");
             this.$router.push({ name: "Home" });
           }
         })
@@ -187,7 +189,7 @@ body {
     background: grey;
     border-radius: 0.04rem;
     cursor: pointer;
-    // border: 1px solid red;
+    // border: 0.01rem solid red;
   }
 }
 .login {
@@ -218,7 +220,7 @@ body {
     margin: 0 0.4rem 0.23rem 0.4rem;
     padding: 0 0.16rem;
     background: #ffffff;
-    border: 1px solid #bbbbbb;
+    border: 0.01rem solid #bbbbbb;
     border-radius: 0.14rem;
     &__text {
       position: absolute;
@@ -258,7 +260,7 @@ body {
     text-align: center;
     font-size: 0.14rem;
     cursor: pointer;
-    // border: 1px solid red;
+    // border: 0.01rem solid red;
   }
   &__login-button {
     margin: 0.2rem 0.4rem 0.16rem 0.4rem;
@@ -292,7 +294,7 @@ body {
     // text-align: center;
     color: red;
     font-size: 0.12rem;
-    // border: 1px solid red;
+    // border: 0.01rem solid red;
   }
 }
 .allow {

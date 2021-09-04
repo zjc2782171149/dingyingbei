@@ -86,12 +86,15 @@ body {
   height: 100%;
 }
 .all {
-  position: relative;
+  position: absolute;
   width: 100%;
-  height: 7.6rem;
-  overflow-y: hidden;
-  background: url(../assets/imgs/背景图.png) no-repeat;
-  background-size: 100%;
+  height: 100%;
+  // overflow-y: hidden;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: url(../assets/imgs/背景图.png) no-repeat center center;
+  background-size: 100% 100%;
 }
 .frame {
   position: absolute;
@@ -135,7 +138,7 @@ body {
     background: grey;
     border-radius: 0.04rem;
     cursor: pointer;
-    // border: 1px solid red;
+    // border: .01rem solid red;
   }
 }
 

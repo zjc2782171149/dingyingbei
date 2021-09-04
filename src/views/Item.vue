@@ -242,21 +242,21 @@ export default {
     height: 0.45rem;
     line-height: 0.45rem;
     border-radius: 0.1rem;
-    border: 1px solid #bbbbbb;
+    border: 0.01rem solid #bbbbbb;
     outline: none;
     padding-left: 0.1rem;
     font-size: 0.13rem;
     box-sizing: border-box;
   }
   &__input:hover {
-    border: 1px solid black;
+    border: 0.01rem solid black;
   }
   &__select {
     width: 2.5rem;
     height: 0.35rem;
     line-height: 0.45rem;
     border-radius: 0.1rem;
-    border: 1px solid #bbbbbb;
+    border: 0.01rem solid #bbbbbb;
     outline: none;
     padding-left: 0.1rem;
     font-size: 0.13rem;
@@ -285,7 +285,7 @@ export default {
     height: 0.26rem;
     line-height: 0.26rem;
     cursor: default;
-    // border: 1px solid red;
+    // border: 0.01rem solid red;
   }
   &__filePath {
     display: inline-block;
@@ -294,7 +294,7 @@ export default {
     width: 2.5rem;
     height: 0.26rem;
     line-height: 0.26rem;
-    // border: 1px solid red;
+    // border: 0.01rem solid red;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

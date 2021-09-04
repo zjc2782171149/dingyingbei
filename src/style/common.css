@@ -4,7 +4,7 @@
 }
 .styleAll_red {
   color: red;
-  border-bottom: 1px solid red;
+  border-bottom: 0.01rem solid red;
 }
 li {
   list-style-type: none;

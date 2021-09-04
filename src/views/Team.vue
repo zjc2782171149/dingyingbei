@@ -122,7 +122,7 @@ export default {
 }
 .team {
   margin: 0.4rem 0.8rem 0.4rem 3rem;
-  // border: 1px solid #bbbbbb;
+  // border: 0.01rem solid #bbbbbb;
   &__title {
     position: relative;
     width: 1.4rem;
@@ -135,7 +135,7 @@ export default {
     overflow-y: scroll;
     width: 10rem;
     height: 4rem;
-    // border: 1px solid #bbbbbb;
+    // border: 0.01rem solid #bbbbbb;
   }
   &__member {
     position: relative;
@@ -143,7 +143,7 @@ export default {
     height: 1.46rem;
     line-height: 0.8rem;
     margin: 0 0 0.3rem 0;
-    border: 1px solid #bbbbbb;
+    border: 0.01rem solid #bbbbbb;
     cursor: default;
     &__name {
       position: absolute;
@@ -156,7 +156,7 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      // border: 1px solid #bbbbbb;
+      // border: 0.01rem solid #bbbbbb;
     }
     &__college {
       position: absolute;
@@ -168,7 +168,7 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      // border: 1px solid #bbbbbb;
+      // border: 0.01rem solid #bbbbbb;
     }
     &__xueli {
       position: absolute;
@@ -180,7 +180,7 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      // border: 1px solid #bbbbbb;
+      // border: 0.01rem solid #bbbbbb;
     }
     &__project {
       position: absolute;
@@ -192,7 +192,7 @@ export default {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      // border: 1px solid #bbbbbb;
+      // border: 0.01rem solid #bbbbbb;
     }
     &__number {
       position: absolute;
@@ -227,7 +227,7 @@ export default {
     font-size: 0.25rem;
     color: #95a5a6;
     overflow-y: scroll;
-    // border: 1px solid #bbbbbb;
+    // border: 0.01rem solid #bbbbbb;
     &__every {
       position: relative;
       margin: 0 0 1.6rem 0;

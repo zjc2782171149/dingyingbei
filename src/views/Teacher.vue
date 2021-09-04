@@ -105,7 +105,7 @@ export default {
   margin: 0.8rem 0.8rem 0.4rem 0.15rem;
   width: 3.76rem;
   height: 1.15rem;
-  border: 1px solid #bbbbbb;
+  border: 0.01rem solid #bbbbbb;
   &__imgs {
     position: absolute;
     font-size: 0.75rem;
@@ -118,7 +118,7 @@ export default {
     left: 1.3rem;
     font-size: 0.26rem;
     width: 1.26rem;
-    // border: 1px solid red;
+    // border: 0.01rem solid red;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -129,7 +129,7 @@ export default {
     left: 1.3rem;
     font-size: 0.15rem;
     width: 2.3rem;
-    // border: 1px solid red;
+    // border: 0.01rem solid red;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -140,7 +140,7 @@ export default {
     left: 2.65rem;
     font-size: 0.2rem;
     width: 1rem;
-    // border: 1px solid red;
+    // border: 0.01rem solid red;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -155,7 +155,7 @@ export default {
 }
 .input {
   position: absolute;
-  border: 1px solid #bbbbbb;
+  border: 0.01rem solid #bbbbbb;
   width: 7rem;
   height: 2.5rem;
   background: #f5f5f5;
@@ -228,12 +228,12 @@ export default {
     height: 0.3rem;
     line-height: 0.3rem;
     border-radius: 0.08rem;
-    border: 1px solid #bbbbbb;
+    border: 0.01rem solid #bbbbbb;
     outline: none;
     padding-left: 0.1rem;
   }
   &__Input:hover {
-    border: 1px solid black;
+    border: 0.01rem solid black;
   }
 }
 </style>

@@ -150,7 +150,7 @@ export default {
     height: 0.35rem;
     line-height: 0.45rem;
     border-radius: 0.1rem;
-    border: 1px solid #bbbbbb;
+    border: 0.01rem solid #bbbbbb;
     outline: none;
     padding-left: 0.1rem;
     font-size: 0.13rem;
@@ -169,14 +169,14 @@ export default {
     height: 0.45rem;
     line-height: 0.45rem;
     border-radius: 0.1rem;
-    border: 1px solid #bbbbbb;
+    border: 0.01rem solid #bbbbbb;
     outline: none;
     padding: 0 0.1rem;
     font-size: 0.13rem;
     box-sizing: border-box;
   }
   &__input:hover {
-    border: 1px solid black;
+    border: 0.01rem solid black;
   }
   // 公共样式 end
   &__name {
