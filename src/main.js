@@ -7,5 +7,6 @@ import 'normalize.css'
 import './style/base.scss'
 import './style/common.css'
 import './style/iconfont.css'
+import "animate.css"
 
 createApp(App).use(store).use(router).mount('#app')
