@@ -6,10 +6,8 @@ export default createStore({
       project: {
         teamName: '',
         productionName: '',
-        productionType: {
-          typeOne: '',
-          typeTwo: ''
-        },
+        typeOne: '',
+        typeTwo: '',
         fileLists: {
           file1: '',
           file2: ''

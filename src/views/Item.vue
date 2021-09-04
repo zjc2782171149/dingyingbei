@@ -28,24 +28,97 @@
         name=""
         id=""
         class="sign__select"
-        v-model="itemList.productionType.typeOne"
+        v-model="itemList.typeOne"
+        @change="changeType"
       >
-        <option value="科技">科技</option>
-        <option value="体育">体育</option>
-        <option value="生活">生活</option>
-        <option value="其他">其他</option>
+        <option value="A类：实用技术发明类">A类：实用技术发明类</option>
+        <option value="B类：创新创意设计类">B类：创新创意设计类</option>
+        <option value="C类：科学实践论文类">C类：科学实践论文类</option>
+        <option value="D类：文学作品类">D类：文学作品类</option>
+        <option value="E类：广告创意设计类">E类：广告创意设计类</option>
+        <option value="F类：商业计划类">F类：商业计划类</option>
+        <option value="G类：社会科学调研类">G类：社会科学调研类</option>
       </select>
       &nbsp;
       <select
         name=""
         id=""
         class="sign__select"
-        v-model="itemList.productionType.typeTwo"
+        v-model="itemList.typeTwo"
+        v-show="optionArray.aa"
       >
-        <option value="科技">科技</option>
-        <option value="体育">体育</option>
-        <option value="生活">生活</option>
+        <option value="机械与控制">机械与控制</option>
+        <option value="信息技术">信息技术</option>
+        <option value="生命科学">生命科学</option>
+        <option value="能源化工">能源化工</option>
         <option value="其他">其他</option>
+      </select>
+      <select
+        name=""
+        id=""
+        class="sign__select"
+        v-model="itemList.typeTwo"
+        v-show="optionArray.bb"
+      >
+        <option value="机械与控制">机械与控制</option>
+        <option value="信息技术">信息技术</option>
+        <option value="生命科学">生命科学</option>
+        <option value="能源化工">能源化工</option>
+        <option value="其他">其他</option>
+      </select>
+      <select
+        name=""
+        id=""
+        class="sign__select"
+        v-model="itemList.typeTwo"
+        v-show="optionArray.cc"
+      >
+        <option value="机械与控制">机械与控制</option>
+        <option value="信息技术">信息技术</option>
+        <option value="生命科学">生命科学</option>
+        <option value="能源化工">能源化工</option>
+        <option value="数理">数理</option>
+        <option value="其他">其他</option>
+      </select>
+      <select
+        name=""
+        id=""
+        class="sign__select"
+        v-model="itemList.typeTwo"
+        v-show="optionArray.dd"
+        disabled
+      >
+        <option value="无选项" selected>无选项</option>
+      </select>
+      <select
+        name=""
+        id=""
+        class="sign__select"
+        v-model="itemList.typeTwo"
+        v-show="optionArray.ee"
+        disabled
+      >
+        <option value="无选项" selected>无选项</option>
+      </select>
+      <select
+        name=""
+        id=""
+        class="sign__select"
+        v-model="itemList.typeTwo"
+        v-show="optionArray.ff"
+        disabled
+      >
+        <option value="无选项" selected>无选项</option>
+      </select>
+      <select
+        name=""
+        id=""
+        class="sign__select"
+        v-model="itemList.typeTwo"
+        v-show="optionArray.gg"
+        disabled
+      >
+        <option value="无选项" selected>无选项</option>
       </select>
     </div>
     <div class="sign__book">
@@ -95,14 +168,21 @@ export default {
       itemList: {
         teamName: "",
         productionName: "",
-        productionType: {
-          typeOne: "",
-          typeTwo: "",
-        },
+        typeOne: "",
+        typeTwo: "",
         fileLists: {
           file1: "",
           file2: "",
         },
+      },
+      optionArray: {
+        aa: false,
+        bb: false,
+        cc: false,
+        dd: false,
+        ee: false,
+        ff: false,
+        gg: false,
       },
     };
   },
@@ -149,20 +229,110 @@ export default {
         this.itemList.teamName;
       this.$store.state.peopleMessageList.project.productionName =
         this.itemList.productionName;
-      this.$store.state.peopleMessageList.project.productionType.typeOne =
-        this.itemList.productionType.typeOne;
-      this.$store.state.peopleMessageList.project.productionType.typeTwo =
-        this.itemList.productionType.typeTwo;
+      this.$store.state.peopleMessageList.project.typeOne =
+        this.itemList.typeOne;
+      this.$store.state.peopleMessageList.project.typeTwo =
+        this.itemList.typeTwo;
       this.$store.state.peopleMessageList.project.fileLists.file1 =
         this.itemList.fileLists.file1;
       this.$store.state.peopleMessageList.project.fileLists.file2 =
         this.itemList.fileLists.file2;
       console.log(this.$store.state.peopleMessageList);
-      // console.log(this.$store.state.peopleMessageList.project.productionType);
     },
     nextPage() {
       this.$emit("changePage");
     },
+    // 改变不同select的不同option选项 start
+    elseChangeFalse(type) {
+      if (type === "aa") {
+        this.optionArray.bb = false;
+        this.optionArray.cc = false;
+        this.optionArray.dd = false;
+        this.optionArray.ee = false;
+        this.optionArray.ff = false;
+        this.optionArray.gg = false;
+      } else if (type === "bb") {
+        this.optionArray.aa = false;
+        this.optionArray.cc = false;
+        this.optionArray.dd = false;
+        this.optionArray.ee = false;
+        this.optionArray.ff = false;
+        this.optionArray.gg = false;
+      } else if (type === "cc") {
+        this.optionArray.aa = false;
+        this.optionArray.bb = false;
+        this.optionArray.dd = false;
+        this.optionArray.ee = false;
+        this.optionArray.ff = false;
+        this.optionArray.gg = false;
+      } else if (type === "dd") {
+        this.optionArray.aa = false;
+        this.optionArray.cc = false;
+        this.optionArray.bb = false;
+        this.optionArray.ee = false;
+        this.optionArray.ff = false;
+        this.optionArray.gg = false;
+      } else if (type === "ee") {
+        this.optionArray.aa = false;
+        this.optionArray.cc = false;
+        this.optionArray.dd = false;
+        this.optionArray.bb = false;
+        this.optionArray.ff = false;
+        this.optionArray.gg = false;
+      } else if (type === "ff") {
+        this.optionArray.aa = false;
+        this.optionArray.cc = false;
+        this.optionArray.dd = false;
+        this.optionArray.ee = false;
+        this.optionArray.bb = false;
+        this.optionArray.gg = false;
+      } else {
+        this.optionArray.aa = false;
+        this.optionArray.cc = false;
+        this.optionArray.dd = false;
+        this.optionArray.ee = false;
+        this.optionArray.ff = false;
+        this.optionArray.bb = false;
+      }
+    },
+    changeType() {
+      console.log(this.itemList.typeOne);
+      switch (this.itemList.typeOne) {
+        case "A类：实用技术发明类":
+          this.optionArray.aa = true;
+          this.elseChangeFalse("aa");
+          break;
+        case "B类：创新创意设计类":
+          this.optionArray.bb = true;
+          this.elseChangeFalse("bb");
+          break;
+        case "C类：科学实践论文类":
+          this.optionArray.cc = true;
+          this.elseChangeFalse("cc");
+          break;
+        case "D类：文学作品类":
+          this.optionArray.dd = true;
+          this.itemList.typeTwo = "";
+          this.elseChangeFalse("dd");
+          break;
+        case "E类：广告创意设计类":
+          this.optionArray.ee = true;
+          this.itemList.typeTwo = "";
+          this.elseChangeFalse("ee");
+          break;
+        case "F类：商业计划类":
+          this.optionArray.ff = true;
+          this.itemList.typeTwo = "";
+          this.elseChangeFalse("ff");
+          break;
+
+        default:
+          this.elseChangeFalse("gg");
+          this.itemList.typeTwo = "";
+          this.optionArray.gg = true;
+      }
+    },
+    // 改变不同select的不同option选项 end
   },
 };
 </script>
