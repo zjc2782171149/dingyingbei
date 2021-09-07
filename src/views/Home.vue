@@ -96,10 +96,12 @@ body {
 }
 .frame {
   position: absolute;
+  // top: 50%;
   width: 13.2rem;
   height: 6.3rem;
   background-color: #ffffff;
   left: 1.08rem;
+  right: 1.08rem;
   top: 1rem;
 }
 .shortcut {
