@@ -46,10 +46,11 @@
           <router-link to="/register">没有账户？立即注册</router-link>
         </div>
         <button
+          id="a"
           class="login__login-button"
           :class="{ allow: isClick }"
           @click="handleLogin()"
-          :disabled="isClick"
+          :disabled="false"
         >
           登录
         </button>
@@ -63,7 +64,8 @@
 
 <script>
 // @ is an alias to /src
-import axios from "axios";
+// import axios from "axios";
+import { post } from "../utils/request";
 
 export default {
   name: "LoginPasswd",
@@ -94,19 +96,17 @@ export default {
   methods: {
     handleLogin() {
       // 点击发送
-      axios
-        .post(
-          "https://www.fastmock.site/mock/ae8e9031947a302fed5f92425995aa19/jd/api/user/login",
-          {
-            username: "username1",
-            password: "password1",
-          }
-        )
+      const message = JSON.stringify({
+        admin: "admin",
+        password: "password",
+      });
+
+      post("/user/login", message)
         .then((res) => {
           console.log(res);
-          console.log("成功发送用户名和密码到服务器");
-          if (res?.data?.errno === 0) {
+          if (res?.data?.user?.id !== 0) {
             localStorage.isLogin = true;
+            this.$store.state.name = res.user.name;
             alert("登录成功");
             this.$router.push({ name: "Home" });
           }

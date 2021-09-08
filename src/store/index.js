@@ -3,6 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     peopleMessageList: {
+      name: '',
       project: {
         teamName: '',
         productionName: '',

@@ -21,7 +21,11 @@
             >导师信息</span
           >
         </div>
-        <div class="shortcut__show">未登录</div>
+        <div class="shortcut__name">{{ name }}</div>
+        <div class="iconfont shortcut__iconfont">&#xe658;</div>
+        <div class="shortcut__Login" :class="{ style__green: styleShow }">
+          {{ isLogin }}
+        </div>
         <div class="shortcut__hr"></div>
         <!-- <div></div>s -->
       </section>
@@ -57,6 +61,9 @@ export default {
   data() {
     return {
       which: "Item",
+      isLogin: "未登录",
+      name: "", // 用户名
+      styleShow: false, // 按钮框背景改为绿色
     };
   },
   methods: {
@@ -73,6 +80,13 @@ export default {
     changeToTeam() {
       this.which = "Team";
     },
+  },
+  created() {
+    if (this.$store.state.name) {
+      this.isLogin = "已登录";
+      this.styleShow = true;
+      this.name = this.$store.state.name;
+    }
   },
 };
 </script>
@@ -125,7 +139,33 @@ body {
     height: 0.12rem;
     background: #eee;
   }
-  &__show {
+  &__name {
+    float: right;
+    margin-top: -0.3rem;
+    margin-right: 2.8rem;
+    font-size: 0.23rem;
+    width: 0.8rem;
+    height: 0.3rem;
+    line-height: 0.3rem;
+    text-align: center;
+    color: #2c3e50;
+    cursor: pointer;
+    // border: .01rem solid red;
+  }
+  &__iconfont {
+    float: right;
+    margin-top: -0.3rem;
+    margin-right: 2.4rem;
+    font-size: 0.18rem;
+    width: 0.8rem;
+    height: 0.28rem;
+    line-height: 0.28rem;
+    text-align: center;
+    color: #2c3e50;
+    cursor: pointer;
+    // border: .01rem solid red;
+  }
+  &__Login {
     float: right;
     margin-top: -0.3rem;
     margin-right: 1.8rem;
@@ -140,6 +180,10 @@ body {
     cursor: pointer;
     // border: .01rem solid red;
   }
+}
+
+.style__green {
+  background: #2ecc71;
 }
 
 /* 图片样式 */
