@@ -27,7 +27,7 @@
           <input
             class="login__input__content"
             placeholder="请输入手机号"
-            v-model="phone"
+            v-model="personMessage.player.admin"
           />
         </div>
         <div v-if="personMessage.error" class="login__error">
@@ -68,7 +68,7 @@
 import { post } from "../utils/request";
 
 export default {
-  name: "LoginPasswd",
+  name: "adminLogin",
   components: {},
   data() {
     return {
@@ -81,14 +81,13 @@ export default {
         cacheCode: "",
       },
       loginSuccess: false,
-      phone: "",
     };
   },
   computed: {
     // 手机号和验证码都不能为空
     isClick() {
       if (
-        (this.personMessage.admin || this.phone) &&
+        (this.personMessage.phone || this.personMessage.id) &&
         this.personMessage.password
       ) {
         return false;
@@ -99,16 +98,17 @@ export default {
   },
   methods: {
     handleLogin() {
-      this.personMessage.admin = this.phone;
-
       // 点击发送
-      const message = JSON.stringify(this.personMessage);
+      const message = JSON.stringify({
+        admin: "admin",
+        password: "password",
+      });
 
-      post("/player/login", message)
+      post("/user/login", message)
         .then((res) => {
           console.log(res);
-          if (res.data.player.id !== 0) {
-            this.$store.state.name = res.data.player.name;
+          if (res.data.user.id !== 0) {
+            this.$store.state.name = res.data.user.name;
             localStorage.isLogin = true;
             window.localStorage.setItem(
               "peopleMessage",

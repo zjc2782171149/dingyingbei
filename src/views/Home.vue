@@ -82,10 +82,13 @@ export default {
     },
   },
   created() {
+    // const personMessage = JSON.parse(localStorage.getItem("peopleMessage"));
+    // console.log(personMessage);
     if (this.$store.state.name) {
       this.isLogin = "已登录";
       this.styleShow = true;
       this.name = this.$store.state.name;
+      // this.name = localStorage.PeopleMessage.name;
     }
   },
 };
