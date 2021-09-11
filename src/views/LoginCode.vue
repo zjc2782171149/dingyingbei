@@ -48,7 +48,7 @@
           class="login__login-button"
           :class="{ allow: isClick }"
           @click="handleLogin()"
-          :disabled="false"
+          :disabled="isClick"
         >
           登录
         </button>
@@ -88,7 +88,10 @@ export default {
   computed: {
     // 手机号和验证码都不能为空
     isClick() {
-      if (this.personMessage.admin && this.personMessage.password) {
+      if (
+        this.personMessage.player.admin &&
+        this.personMessage.player.password
+      ) {
         return false;
       } else {
         return true;
@@ -152,16 +155,16 @@ export default {
 
       post("/player/login", message)
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.data.player) {
-            this.$store.state.name = res.data.player.name;
-            // localStorage.isLogin = true;
+            this.$store.state.admin = res.data.player.name;
+            localStorage.isLogin = true;
             window.localStorage.setItem(
               "peopleMessage",
               JSON.stringify(res.user)
             );
             alert("登录成功");
-            // this.$router.push({ name: "Home" });
+            this.$router.push({ name: "Home" });
           } else if (res.data.result.code === 401) {
             this.errorMes = res.data.result.message;
             this.loginSuccess = true;

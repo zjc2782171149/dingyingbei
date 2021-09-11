@@ -1,6 +1,11 @@
 <template>
   <div class="team">
     <h2 class="team__title">团队信息</h2>
+    <div class="team__college">所属学院：</div>
+    <div class="team__college__input">{{ college }}</div>
+    <div class="team__type">所属组别：</div>
+    <div class="team__type__input">{{ type }}</div>
+    <div class="team__box__title">成员信息</div>
     <div class="team__box">
       <div class="team__member" v-for="(item, index) in team" :key="index">
         <div class="iconfont team__imgPeople">&#xe601;</div>
@@ -13,7 +18,7 @@
         <div class="team__member__xueli">学历：{{ item.xueli }}</div>
 
         <div class="team__member__project">专业：{{ item.project }}</div>
-        <div class="team__member__number">学号：{{ item.number }}</div>
+        <div class="team__member__number">学号：{{ item.studentId }}</div>
         <div class="team__member__phone">联系方式：{{ item.phone }}</div>
         <div class="iconfont team__imgCopy" @click="openMaskShow(index)">
           &#xe604;
@@ -51,15 +56,18 @@ export default {
       addShow: false,
       team: [
         {
+          id: "",
           name: "",
           job: "",
           college: "",
           xueli: "",
           project: "",
-          number: "",
+          studentId: "",
           phone: "",
         },
       ],
+      college: "",
+      type: "",
     };
   },
   methods: {
@@ -76,12 +84,13 @@ export default {
     // 团队人员的增删 start
     addTeamMember() {
       this.team.push({
+        id: "",
         name: "",
         job: "",
         college: "",
         xueli: "",
         project: "",
-        number: "",
+        studentId: "",
         phone: "",
       });
     },
@@ -96,6 +105,8 @@ export default {
   },
   created() {
     this.team = this.$store.state.peopleMessageList.team;
+    this.college = this.$store.state.peopleMessageList.project.college;
+    this.type = this.$store.state.peopleMessageList.project.type;
   },
   mounted() {
     console.log("mounted");
@@ -130,12 +141,59 @@ export default {
     line-height: 0.4rem;
     margin-left: 0.1rem;
     margin-bottom: 0.1rem;
+    font-size: 0.2rem;
+  }
+  &__college {
+    position: absolute;
+    width: 1.4rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    margin-left: 1.3rem;
+    margin-top: -0.5rem;
+    font-size: 0.16rem;
+    &__input {
+      position: absolute;
+      width: 2.6rem;
+      height: 0.4rem;
+      line-height: 0.4rem;
+      margin-left: 2.1rem;
+      margin-top: -0.5rem;
+      font-size: 0.18rem;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+  &__type {
+    position: absolute;
+    width: 1.4rem;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    margin-left: 4.8rem;
+    margin-top: -0.5rem;
+    font-size: 0.16rem;
+    &__input {
+      position: absolute;
+      width: 1.4rem;
+      height: 0.4rem;
+      line-height: 0.4rem;
+      margin-left: 5.6rem;
+      margin-top: -0.5rem;
+      font-size: 0.18rem;
+    }
   }
   &__box {
     overflow-y: scroll;
     width: 10rem;
     height: 4rem;
+    margin-top: 0.65rem;
     // border: 0.01rem solid #bbbbbb;
+  }
+  &__box__title {
+    position: absolute;
+    font-size: 0.2rem;
+    font-weight: bolder;
+    margin: 0.15rem 0 0.2rem 0.09rem;
   }
   &__member {
     position: relative;
@@ -235,7 +293,7 @@ export default {
   }
   &__addMember {
     position: relative;
-    top: 0.4rem;
+    top: 0.22rem;
     cursor: pointer;
   }
   &__add {

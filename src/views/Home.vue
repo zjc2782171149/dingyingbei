@@ -21,17 +21,25 @@
             >导师信息</span
           >
         </div>
-        <div class="shortcut__name">{{ name }}</div>
-        <div class="iconfont shortcut__iconfont">&#xe658;</div>
-        <div class="shortcut__Login" :class="{ style__green: styleShow }">
-          {{ isLogin }}
+        <div class="right">
+          <div class="name_tag">
+            <div class="shortcut__name">{{ admin }}</div>
+            <div class="iconfont shortcut__iconfont">&#xe658;</div>
+          </div>
+          <div class="shortcut__Login" :class="{ style__green: styleShow }">
+            {{ isLogin }}
+          </div>
         </div>
         <div class="shortcut__hr"></div>
         <!-- <div></div>s -->
       </section>
 
       <keep-alive>
-        <component :is="which" @changePage="changeToTeam"></component>
+        <component
+          :is="which"
+          @changePage="changeToTeam"
+          :itemListFromHome="itemListFromHome"
+        ></component>
       </keep-alive>
       <router-view></router-view>
       <!-- <router-view v-slot="{ which }">
@@ -47,6 +55,7 @@
 
 <script>
 // @ is an alias to /src
+import { post } from "../utils/request";
 import Item from "./Item";
 import Team from "./Team";
 import Teacher from "./Teacher";
@@ -62,8 +71,9 @@ export default {
     return {
       which: "Item",
       isLogin: "未登录",
-      name: "", // 用户名
+      admin: "", // 用户名
       styleShow: false, // 按钮框背景改为绿色
+      itemListFromHome: {},
     };
   },
   methods: {
@@ -82,14 +92,22 @@ export default {
     },
   },
   created() {
-    // const personMessage = JSON.parse(localStorage.getItem("peopleMessage"));
-    // console.log(personMessage);
-    if (this.$store.state.name) {
+    // 从接口获取该用户数据
+    post("/apply/myApply")
+      .then((res) => {
+        this.itemListFromHome = res.data.result.data.project;
+        this.$store.state.peopleMessageList = res.data.result.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    if (this.$store.state.admin) {
       this.isLogin = "已登录";
       this.styleShow = true;
-      this.name = this.$store.state.name;
-      // this.name = localStorage.PeopleMessage.name;
+      this.admin = this.$store.state.admin;
     }
+    // 设置登录后样式，右上角
   },
 };
 </script>
@@ -143,17 +161,15 @@ body {
     background: #eee;
   }
   &__name {
-    float: right;
     margin-top: -0.3rem;
-    margin-right: 2.8rem;
+    margin-right: 2.93rem;
     font-size: 0.23rem;
-    width: 0.8rem;
     height: 0.3rem;
     line-height: 0.3rem;
-    text-align: center;
+    text-align: right;
     color: #2c3e50;
     cursor: pointer;
-    // border: .01rem solid red;
+    // border: 0.01rem solid red;
   }
   &__iconfont {
     float: right;

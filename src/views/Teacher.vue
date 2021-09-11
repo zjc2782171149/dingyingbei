@@ -38,42 +38,72 @@
           placeholder="老师职称"
         />
       </div>
+      <div class="input__phone">
+        <div class="iconfont iconimg">&#xe741;</div>
+        <div class="input__title">手机号码</div>
+        <input
+          type="text"
+          class="input__Input"
+          v-model="teacher.phone"
+          placeholder="电话号码"
+        />
+      </div>
       <div class="input__add" @click="confirmMessage">保存</div>
-      <div class="input__cancel">提交报名信息</div>
+      <div class="input__cancel" @click="submit">提交报名信息</div>
     </div>
   </div>
 </template>
 
 <script>
+import { post } from "../utils/request";
+
 export default {
   name: "Teacher",
   data() {
     return {
       teacher: {
+        id: "",
         name: "",
         college: "",
         job: "",
+        phone: "",
       },
       teacherShowMessage: {
+        id: "",
         name: "老师名称",
         college: "所在学院",
         job: "职称",
+        phone: "",
       },
     };
+  },
+  created() {
+    this.teacher = this.$store.state.peopleMessageList.teacher;
+    this.teacherShowMessage = this.$store.state.peopleMessageList.teacher;
   },
   methods: {
     confirmMessage() {
       this.teacherShowMessage.name = this.teacher.name;
       this.teacherShowMessage.college = this.teacher.college;
       this.teacherShowMessage.job = this.teacher.job;
+      this.teacherShowMessage.phone = this.teacher.phone;
       // 上面是choose框的展示，点击确认才关联上去并显示
       this.$store.state.peopleMessageList.teacher.name = this.teacher.name;
       this.$store.state.peopleMessageList.teacher.college =
         this.teacher.college;
       this.$store.state.peopleMessageList.teacher.job = this.teacher.job;
+      this.$store.state.peopleMessageList.teacher.phone = this.teacher.phone;
       // 上面是关联到vuex中数据，点击确认才关联过去
-      // console.log(this.teacher);
-      // console.log(this.$store.state.peopleMessageList);
+    },
+    submit() {
+      const message = JSON.stringify(this.$store.state.peopleMessageList);
+      post("/apply/sumbit", message)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };
@@ -163,7 +193,7 @@ export default {
   font-size: 0.14rem;
   &__name {
     position: absolute;
-    margin: 0.3rem 0.7rem 0.3rem 0.4rem;
+    margin: 0.1rem 0.7rem 0.25rem 0.4rem;
     &__title {
       display: inline-block;
       font-size: 0.14rem;
@@ -173,21 +203,28 @@ export default {
   }
   &__college {
     position: absolute;
-    margin: 0.8rem 0.7rem 0.3rem 0.4rem;
+    margin: 0.6rem 0.7rem 0.25rem 0.4rem;
     &__title {
       display: inline-block;
     }
   }
   &__job {
     position: absolute;
-    margin: 1.3rem 0.7rem 0.3rem 0.4rem;
+    margin: 1.1rem 0.7rem 0.25rem 0.4rem;
+    &__title {
+      display: inline-block;
+    }
+  }
+  &__phone {
+    position: absolute;
+    margin: 1.6rem 0.7rem 0.25rem 0.4rem;
     &__title {
       display: inline-block;
     }
   }
   &__add {
     position: absolute;
-    margin: 1.9rem 0.7rem 0.3rem 1.5rem;
+    margin: 2.03rem 0.7rem 0.3rem 1.5rem;
     width: 1.3rem;
     height: 0.4rem;
     line-height: 0.4rem;
@@ -203,7 +240,7 @@ export default {
   }
   &__cancel {
     position: absolute;
-    margin: 1.9rem 0.7rem 0.3rem 3.2rem;
+    margin: 2.03rem 0.7rem 0.3rem 3.2rem;
     width: 1.3rem;
     height: 0.4rem;
     line-height: 0.4rem;

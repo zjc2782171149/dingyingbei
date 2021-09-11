@@ -18,7 +18,7 @@
         type="text"
         class="sign__input"
         placeholder="请填写作品名称"
-        v-model="itemList.productionName"
+        v-model="itemList.workName"
       />
     </div>
     <div class="sign__type">
@@ -28,7 +28,7 @@
         name=""
         id=""
         class="sign__select"
-        v-model="itemList.typeOne"
+        v-model="itemList.direction"
         @change="changeType"
       >
         <option value="A类：实用技术发明类">A类：实用技术发明类</option>
@@ -44,7 +44,7 @@
         name=""
         id=""
         class="sign__select"
-        v-model="itemList.typeTwo"
+        v-model="itemList.ground"
         v-show="optionArray.aa"
         @change="otherInputShow"
         autocomplete="off"
@@ -57,13 +57,13 @@
       </select>
       <div class="sign__input--select" v-show="optionShow1">
         <span>请填写:</span>
-        <input type="text" v-model="itemList.typeTwo" />
+        <input type="text" v-model="itemList.ground" />
       </div>
       <select
         name=""
         id=""
         class="sign__select"
-        v-model="itemList.typeTwo"
+        v-model="itemList.ground"
         v-show="optionArray.bb"
         @change="otherInputShow"
       >
@@ -75,13 +75,13 @@
       </select>
       <div class="sign__input--select" v-show="optionShow2">
         <span>请填写:</span>
-        <input type="text" v-model="itemList.typeTwo" />
+        <input type="text" v-model="itemList.ground" />
       </div>
       <select
         name=""
         id=""
         class="sign__select"
-        v-model="itemList.typeTwo"
+        v-model="itemList.ground"
         v-show="optionArray.cc"
         @change="otherInputShow"
       >
@@ -94,13 +94,13 @@
       </select>
       <div class="sign__input--select" v-show="optionShow3">
         <span>请填写:</span>
-        <input type="text" v-model="itemList.typeTwo" />
+        <input type="text" v-model="itemList.ground" />
       </div>
       <select
         name=""
         id=""
         class="sign__select"
-        v-model="itemList.typeTwo"
+        v-model="itemList.ground"
         v-show="optionArray.dd"
         disabled
       >
@@ -110,7 +110,7 @@
         name=""
         id=""
         class="sign__select"
-        v-model="itemList.typeTwo"
+        v-model="itemList.ground"
         v-show="optionArray.ee"
         disabled
       >
@@ -120,7 +120,7 @@
         name=""
         id=""
         class="sign__select"
-        v-model="itemList.typeTwo"
+        v-model="itemList.ground"
         v-show="optionArray.ff"
         disabled
       >
@@ -130,7 +130,7 @@
         name=""
         id=""
         class="sign__select"
-        v-model="itemList.typeTwo"
+        v-model="itemList.ground"
         v-show="optionArray.gg"
         disabled
       >
@@ -177,15 +177,16 @@
 <script>
 export default {
   name: "Item",
+  props: ["itemListFromHome"],
   data() {
     return {
       file1Path: "",
       file2Path: "",
       itemList: {
         teamName: "",
-        productionName: "",
-        typeOne: "",
-        typeTwo: "机械与控制",
+        workName: "",
+        direction: "",
+        ground: "机械与控制",
         fileLists: {
           file1: "",
           file2: "",
@@ -205,9 +206,14 @@ export default {
       optionShow3: false,
     };
   },
+  watch: {
+    itemListFromHome: function (newVal, oldVal) {
+      this.itemList = newVal; // newVal便是itemList
+      console.log(this.itemList);
+    },
+  },
   computed: {
     filepath1() {
-      // return this.$refs.files.value;
       if (this.file1Path) {
         return "再次点击可重新上传";
       } else {
@@ -215,7 +221,6 @@ export default {
       }
     },
     filepath2() {
-      // return this.$refs.files.value;
       if (this.file2Path) {
         return "再次点击可重新上传";
       } else {
@@ -234,24 +239,23 @@ export default {
       this.file1Path = event.target.files[0].name;
       const file = event.target.files;
       this.itemList.fileLists.file1 = file;
-      console.log(file);
+      // console.log(file);
       // console.log(this.$store.state.peopleMessageList);
     },
     getFile2(event) {
       this.file2Path = event.target.files[0].name;
       const file = event.target.files;
       this.itemList.fileLists.file2 = file;
-      console.log(file);
+      // console.log(file);
     },
     confirmMessage() {
       this.$store.state.peopleMessageList.project.teamName =
         this.itemList.teamName;
-      this.$store.state.peopleMessageList.project.productionName =
-        this.itemList.productionName;
-      this.$store.state.peopleMessageList.project.typeOne =
-        this.itemList.typeOne;
-      this.$store.state.peopleMessageList.project.typeTwo =
-        this.itemList.typeTwo;
+      this.$store.state.peopleMessageList.project.workName =
+        this.itemList.workName;
+      this.$store.state.peopleMessageList.project.direction =
+        this.itemList.direction;
+      this.$store.state.peopleMessageList.project.ground = this.itemList.ground;
       this.$store.state.peopleMessageList.project.fileLists.file1 =
         this.itemList.fileLists.file1;
       this.$store.state.peopleMessageList.project.fileLists.file2 =
@@ -315,13 +319,13 @@ export default {
       }
     },
     changeType() {
-      console.log(this.itemList.typeOne);
-      switch (this.itemList.typeOne) {
+      console.log(this.itemList.direction);
+      switch (this.itemList.direction) {
         case "A类：实用技术发明类":
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.typeTwo = "";
+          this.itemList.ground = "";
           this.optionArray.aa = true;
           this.elseChangeFalse("aa");
           break;
@@ -329,7 +333,7 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.typeTwo = "";
+          this.itemList.ground = "";
           this.optionArray.bb = true;
           this.elseChangeFalse("bb");
           break;
@@ -337,7 +341,7 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.typeTwo = "";
+          this.itemList.ground = "";
           this.optionArray.cc = true;
           this.elseChangeFalse("cc");
           break;
@@ -345,7 +349,7 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.typeTwo = "";
+          this.itemList.ground = "";
           this.optionArray.dd = false;
           this.elseChangeFalse("dd");
           break;
@@ -353,7 +357,7 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.typeTwo = "";
+          this.itemList.ground = "";
           this.optionArray.ee = false;
           this.elseChangeFalse("ee");
           break;
@@ -361,7 +365,7 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.typeTwo = "";
+          this.itemList.ground = "";
           this.optionArray.ff = false;
           this.elseChangeFalse("ff");
           break;
@@ -370,32 +374,32 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.typeTwo = "";
+          this.itemList.ground = "";
           this.optionArray.gg = false;
           this.elseChangeFalse("gg");
       }
     },
     // 改变不同select的不同option选项 end
-    // ABC三类，typeTwo为其他时才显示输入框 start
+    // ABC三类，ground为其他时才显示输入框 start
     otherInputShow() {
-      console.log(this.itemList.typeOne, this.itemList.typeTwo);
+      console.log(this.itemList.direction, this.itemList.ground);
       if (
-        this.itemList.typeTwo === "其他" &&
-        this.itemList.typeOne === "A类：实用技术发明类"
+        this.itemList.ground === "其他" &&
+        this.itemList.direction === "A类：实用技术发明类"
       ) {
         this.optionShow1 = true;
         this.optionShow2 = false;
         this.optionShow3 = false;
       } else if (
-        this.itemList.typeTwo === "其他" &&
-        this.itemList.typeOne === "B类：创新创意设计类"
+        this.itemList.ground === "其他" &&
+        this.itemList.direction === "B类：创新创意设计类"
       ) {
         this.optionShow1 = false;
         this.optionShow2 = true;
         this.optionShow3 = false;
       } else if (
-        this.itemList.typeTwo === "其他" &&
-        this.itemList.typeOne === "C类：科学实践论文类"
+        this.itemList.ground === "其他" &&
+        this.itemList.direction === "C类：科学实践论文类"
       ) {
         this.optionShow1 = false;
         this.optionShow2 = false;
@@ -406,7 +410,7 @@ export default {
         this.optionShow3 = false;
       }
     },
-    // ABC三类，typeTwo为其他时才显示输入框 end
+    // ABC三类，ground为其他时才显示输入框 end
   },
 };
 </script>

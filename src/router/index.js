@@ -39,7 +39,6 @@ const router = createRouter({
 // 进入报名系统前，必须进入两个登录页面或注册页面
 router.beforeEach((to, from, next) => {
   const isLogin = localStorage.isLogin;
-  console.log(isLogin);
   (isLogin || to.name === 'LoginPasswd' || to.name === 'LoginCode' || to.name === 'Register') ? next() : next({ name: "LoginPasswd" });
 })
 

@@ -76,7 +76,7 @@
           class="register__register-button"
           @click="handleRegister"
           :class="{ allow: isClick }"
-          :disabled="false"
+          :disabled="isClick"
         >
           立即注册
         </button>
@@ -117,8 +117,14 @@ export default {
   computed: {
     // 手机号和验证码都不能为空
     isClick() {
-      if (!this.personMes.player.phone || !this.personMes.cacheCode) {
-        return true;
+      if (
+        this.personMes.player.name &&
+        this.personMes.player.admin &&
+        this.personMes.player.phone &&
+        this.personMes.player.password &&
+        this.personMes.cacheCode
+      ) {
+        return false;
       } else {
         return false;
       }
