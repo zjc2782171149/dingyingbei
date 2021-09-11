@@ -128,16 +128,13 @@ export default {
     validatePhone() {
       // 判断输入的手机号是否合法
       if (!this.personMes.player.phone) {
-        console.log("不能为空");
         this.error = { phone: "手机号码不能为空" };
         return false;
       } else if (!/^1[345678]\d{9}$/.test(this.personMes.player.phone)) {
-        console.log("请输入正确的手机号");
         this.error = { phone: "请输入正确的手机号" };
         return false;
       } else {
         this.error = { phone: "" };
-        console.log("Phone right");
         return true;
       }
     },
@@ -161,9 +158,10 @@ export default {
         // 先判断手机号是否合法
         this.validateBtn(); // 先将发送短信按钮给禁止，60s
         // 发送短信请求
-        const message = this.personMes.player;
+        const message = { phone: this.personMes.player.phone };
         post("/player/send", message)
           .then((res) => {
+            alert("发送成功");
             console.log(res);
             this.personMes.messageId = res.data.result.data.messageId;
           })
@@ -188,7 +186,7 @@ export default {
           console.log(res);
           if (res.data.result.code === 200) {
             alert("注册成功");
-            this.$router.replace("/login");
+            this.$router.replace("/LoginPasswd");
           } else if (res.data.result.code === 401) {
             this.errorMes = res.data.result.message;
             this.registerFalse = true;
@@ -361,7 +359,7 @@ body {
     position: absolute;
     margin-top: -0.19rem;
     margin-left: 0.5rem;
-    width: 1.3rem;
+    width: 2rem;
     height: 0.12rem;
     line-height: 0.12rem;
     // text-align: center;

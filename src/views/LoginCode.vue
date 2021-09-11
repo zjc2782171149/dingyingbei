@@ -52,7 +52,7 @@
         >
           登录
         </button>
-        <div class="login__fail" v-show="loginSuccess">登陆失败</div>
+        <div class="login__fail" v-show="loginSuccess">{{ errorMes }}</div>
       </div>
     </div>
     <div class="topimg"><img src="../assets/imgs/1.png" alt="" /></div>
@@ -78,21 +78,17 @@ export default {
         cacheCode: "",
       },
       loginSuccess: false,
-      phone: "",
       disabled: false, // 是否可点击
       error: { phone: "" }, // 验证提示信息
       btnTitle: "获取验证码",
-      registerFalse: false, // 注册错误的提示信息是否展示
-      errorMes: "", // 注册错误的提示信息
+      registerFalse: false, // 登录错误的提示信息是否展示
+      errorMes: "", // 登录错误的提示信息是否展示
     };
   },
   computed: {
     // 手机号和验证码都不能为空
     isClick() {
-      if (
-        (this.personMessage.admin || this.phone) &&
-        this.personMessage.password
-      ) {
+      if (this.personMessage.admin && this.personMessage.password) {
         return false;
       } else {
         return true;
@@ -100,24 +96,102 @@ export default {
     },
   },
   methods: {
+    validatePhone() {
+      // 判断输入的手机号是否合法
+      if (!this.personMessage.player.admin) {
+        this.error = { phone: "手机号码不能为空" };
+        return false;
+      } else if (!/^1[345678]\d{9}$/.test(this.personMessage.player.admin)) {
+        this.error = { phone: "请输入正确的手机号" };
+        return false;
+      } else {
+        this.error = { phone: "" };
+        return true;
+      }
+    },
+    validateBtn() {
+      // 倒计时
+      let time = 60;
+      const timer = setInterval(() => {
+        if (time === 0) {
+          clearInterval(timer);
+          this.disabled = false;
+          this.btnTitle = "获取验证码";
+        } else {
+          this.btnTitle = time + "秒后重试";
+          this.disabled = true;
+          time--;
+        }
+      }, 1000);
+    },
+    getVerifyCode() {
+      if (this.validatePhone()) {
+        // 先判断手机号是否合法
+        this.validateBtn(); // 先将发送短信按钮给禁止，60s
+        // 发送短信请求
+        const message = { phone: this.personMessage.player.admin };
+        post("/player/send", message)
+          .then((res) => {
+            alert("发送成功");
+            console.log(res);
+            this.personMessage.messageId = res.data.result.data.messageId;
+          })
+          .catch((err) => {
+            console.log(err);
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 2000);
+          });
+        // 发送网络请求
+      }
+    },
     handleLogin() {
-      this.personMessage.admin = this.phone;
-
       // 点击发送
       const message = JSON.stringify(this.personMessage);
 
       post("/player/login", message)
         .then((res) => {
           console.log(res);
-          if (res.data.player.id !== 0) {
+          if (res.data.player) {
             this.$store.state.name = res.data.player.name;
-            localStorage.isLogin = true;
+            // localStorage.isLogin = true;
             window.localStorage.setItem(
               "peopleMessage",
               JSON.stringify(res.user)
             );
-            // alert("登录成功");
-            this.$router.push({ name: "Home" });
+            alert("登录成功");
+            // this.$router.push({ name: "Home" });
+          } else if (res.data.result.code === 401) {
+            this.errorMes = res.data.result.message;
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
+          } else if (res.data.result.code === 402) {
+            this.errorMes = res.data.result.message;
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
+          } else if (res.data.result.code === 403) {
+            this.errorMes = res.data.result.message;
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
+          } else if (res.data.result.code === 404) {
+            this.errorMes = res.data.result.message;
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
+          } else {
+            this.errorMes = "手机号错误";
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
           }
         })
         .catch((err) => {
@@ -126,12 +200,9 @@ export default {
           setTimeout(() => {
             this.loginSuccess = false;
           }, 2000);
-          // alert("登陆失败");
+          alert("登陆失败");
         });
     },
-  },
-  updated() {
-    this.$store.commit("loginChange", this.personMessage);
   },
 };
 </script>
@@ -288,15 +359,18 @@ body {
   }
   &__fail {
     position: absolute;
-    margin-left: 1.97rem;
+    margin: 0rem 0.4rem 0.16rem 0.4rem;
     font-size: 0.16rem;
+    text-align: center;
+    width: 3.8rem;
     color: red;
+    // border: 1px solid red;
   }
   &__error {
     position: absolute;
     margin-top: -0.19rem;
     margin-left: 0.5rem;
-    width: 1.3rem;
+    width: 2rem;
     height: 0.12rem;
     line-height: 0.12rem;
     // text-align: center;

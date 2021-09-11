@@ -15,23 +15,12 @@
           <router-link to="/LoginCode">切换至手机/验证码登录</router-link>
         </div>
         <div class="login__input">
-          <div class="login__input__text">登录名</div>
+          <div class="login__input__text admin">登录名/手机号</div>
           <input
             class="login__input__content"
             placeholder="请输入登录名"
             v-model="personMessage.player.admin"
           />
-        </div>
-        <div class="login__input">
-          <div class="login__input__text">手机号</div>
-          <input
-            class="login__input__content"
-            placeholder="请输入手机号"
-            v-model="phone"
-          />
-        </div>
-        <div v-if="personMessage.error" class="login__error">
-          {{ personMessage.error.phone }}
         </div>
         <div class="login__input">
           <div class="login__input__text">密码</div>
@@ -54,7 +43,7 @@
         >
           登录
         </button>
-        <div class="login__fail" v-show="loginSuccess">登陆失败</div>
+        <div class="login__fail" v-show="loginSuccess">{{ errorMes }}</div>
       </div>
     </div>
     <div class="topimg"><img src="../assets/imgs/1.png" alt="" /></div>
@@ -81,7 +70,7 @@ export default {
         cacheCode: "",
       },
       loginSuccess: false,
-      phone: "",
+      errorMes: "", // 注册错误的提示信息
     };
   },
   computed: {
@@ -99,23 +88,51 @@ export default {
   },
   methods: {
     handleLogin() {
-      this.personMessage.admin = this.phone;
-
       // 点击发送
       const message = JSON.stringify(this.personMessage);
 
       post("/player/login", message)
         .then((res) => {
           console.log(res);
-          if (res.data.player.id !== 0) {
+          if (res.data.player) {
             this.$store.state.name = res.data.player.name;
-            localStorage.isLogin = true;
+            // localStorage.isLogin = true;
             window.localStorage.setItem(
               "peopleMessage",
               JSON.stringify(res.user)
             );
-            // alert("登录成功");
-            this.$router.push({ name: "Home" });
+            alert("登录成功");
+            // this.$router.push({ name: "Home" });
+          } else if (res.data.result.code === 401) {
+            this.errorMes = res.data.result.message;
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
+          } else if (res.data.result.code === 402) {
+            this.errorMes = res.data.result.message;
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
+          } else if (res.data.result.code === 403) {
+            this.errorMes = res.data.result.message;
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
+          } else if (res.data.result.code === 404) {
+            this.errorMes = res.data.result.message;
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
+          } else {
+            this.errorMes = "手机号错误";
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
           }
         })
         .catch((err) => {
@@ -126,6 +143,16 @@ export default {
           }, 2000);
           // alert("登陆失败");
         });
+    },
+    phoneErrorClose() {
+      this.phoneErrorShow = false;
+    },
+    checkPhone() {
+      console.log("checkPhone");
+      if (!/^1[3|4|5|7|8][0-9]{9}$/.test(this.phone)) {
+        this.phoneErrorShow = true;
+        this.phoneError = "手机号输入错误";
+      }
     },
   },
   updated() {
@@ -273,22 +300,29 @@ body {
   }
   &__fail {
     position: absolute;
-    margin-left: 1.97rem;
+    margin: 0rem 0.4rem 0.16rem 0.4rem;
     font-size: 0.16rem;
+    text-align: center;
+    width: 3.8rem;
     color: red;
+    // border: 1px solid red;
   }
-  &__error {
-    position: absolute;
-    margin-top: -0.19rem;
-    margin-left: 0.5rem;
-    width: 1.3rem;
-    height: 0.12rem;
-    line-height: 0.12rem;
-    // text-align: center;
-    color: red;
-    font-size: 0.12rem;
-    // border: 0.01rem solid red;
-  }
+}
+.phone__error {
+  position: absolute;
+  margin-top: -0.17rem;
+  margin-left: 0.5rem;
+  width: 1.6rem;
+  height: 0.12rem;
+  line-height: 0.12rem;
+  // text-align: center;
+  color: red;
+  font-size: 0.12rem;
+  // border: 0.01rem solid red;
+}
+.admin {
+  width: 0.6rem;
+  margin-top: -0.02rem;
 }
 .allow {
   cursor: not-allowed;

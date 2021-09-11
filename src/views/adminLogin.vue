@@ -115,7 +115,7 @@ export default {
               JSON.stringify(res.user)
             );
             // alert("登录成功");
-            this.$router.push({ name: "Home" });
+            // this.$router.push({ name: "Home" });
           }
         })
         .catch((err) => {
