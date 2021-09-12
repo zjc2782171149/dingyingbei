@@ -260,11 +260,8 @@ export default {
       this.$store.state.peopleMessageList.project.direction =
         this.itemList.direction;
       this.$store.state.peopleMessageList.project.ground = this.itemList.ground;
-      this.$store.state.peopleMessageList.project.fileLists.file1 =
-        this.itemList.fileLists.file1;
-      this.$store.state.peopleMessageList.project.fileLists.file2 =
-        this.itemList.fileLists.file2;
-      console.log(this.$store.state.peopleMessageList);
+      // console.log(this.$store.state.peopleMessageList);
+      alert("项目信息保存成功");
     },
     nextPage() {
       this.$emit("changePage");

@@ -95,10 +95,18 @@ export default {
     // 从接口获取该用户数据
     post("/apply/myApply")
       .then((res) => {
-        this.itemListFromHome = res.data.result.data.project;
-        this.$store.state.peopleMessageList = res.data.result.data;
-        this.$store.state.flag = 1;
+        console.log(res);
+        if (res.data.result.code === 201) {
+          alert("请开始报名，并注意及时保存信息，以免丢失数据");
+        }
+        if (res.data.result.data) {
+          // 初始化数据
+          this.itemListFromHome = res.data.result.data.project;
+          this.$store.state.peopleMessageList = res.data.result.data;
+          this.$store.state.flag = 1;
+        }
         if (this.$store.state.peopleMessageList.admin) {
+          // 检测登录状态
           this.isLogin = "已登录";
           this.styleShow = true;
           this.admin = this.$store.state.peopleMessageList.admin;
