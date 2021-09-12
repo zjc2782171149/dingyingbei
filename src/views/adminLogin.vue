@@ -12,26 +12,15 @@
           src="http://www.dell-lee.com/imgs/vue3/user.png"
         />
         <div class="login__change">
-          <router-link to="/LoginCode">切换至手机/验证码登录</router-link>
+          <router-link to="/LoginPasswd">切换至用户登录</router-link>
         </div>
         <div class="login__input">
           <div class="login__input__text">登录名</div>
           <input
             class="login__input__content"
             placeholder="请输入登录名"
-            v-model="personMessage.player.admin"
+            v-model="player.admin"
           />
-        </div>
-        <div class="login__input">
-          <div class="login__input__text">手机号</div>
-          <input
-            class="login__input__content"
-            placeholder="请输入手机号"
-            v-model="personMessage.player.admin"
-          />
-        </div>
-        <div v-if="personMessage.error" class="login__error">
-          {{ personMessage.error.phone }}
         </div>
         <div class="login__input">
           <div class="login__input__text">密码</div>
@@ -39,22 +28,19 @@
             class="login__input__content"
             type="password"
             placeholder="请输入密码"
-            v-model="personMessage.player.password"
+            v-model="player.password"
           />
-        </div>
-        <div class="login__login">
-          <router-link to="/register">没有账户？立即注册</router-link>
         </div>
         <button
           id="a"
           class="login__login-button"
           :class="{ allow: isClick }"
           @click="handleLogin()"
-          :disabled="false"
+          :disabled="isClick"
         >
           登录
         </button>
-        <div class="login__fail" v-show="loginSuccess">登陆失败</div>
+        <div class="login__fail" v-show="loginSuccess">{{ errorMes }}</div>
       </div>
     </div>
     <div class="topimg"><img src="../assets/imgs/1.png" alt="" /></div>
@@ -68,28 +54,22 @@
 import { post } from "../utils/request";
 
 export default {
-  name: "adminLogin",
+  name: "LoginPasswd",
   components: {},
   data() {
     return {
-      personMessage: {
-        player: {
-          admin: "", // 登录名
-          password: "", // 密码
-        },
-        messageId: "",
-        cacheCode: "",
+      player: {
+        admin: "", // 登录名
+        password: "", // 密码
       },
       loginSuccess: false,
+      errorMes: "", // 登录错误的提示信息
     };
   },
   computed: {
     // 手机号和验证码都不能为空
     isClick() {
-      if (
-        (this.personMessage.phone || this.personMessage.id) &&
-        this.personMessage.password
-      ) {
+      if (this.player.admin && this.player.password) {
         return false;
       } else {
         return true;
@@ -99,37 +79,49 @@ export default {
   methods: {
     handleLogin() {
       // 点击发送
-      const message = JSON.stringify({
-        admin: "admin",
-        password: "password",
-      });
+      const message = JSON.stringify(this.player);
 
       post("/user/login", message)
         .then((res) => {
           console.log(res);
-          if (res.data.user.id !== 0) {
-            this.$store.state.name = res.data.user.name;
-            localStorage.isLogin = true;
-            window.localStorage.setItem(
-              "peopleMessage",
-              JSON.stringify(res.user)
-            );
-            // alert("登录成功");
+          if (res.data.user) {
+            alert("管理员登录成功");
+            // localStorage.isLogin = true;
             // this.$router.push({ name: "Home" });
+          } else if (!res.data.user) {
+            this.errorMes = res.data.msg;
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
+          } else {
+            this.errorMes = "异常错误";
+            this.loginSuccess = true;
+            setTimeout(() => {
+              this.loginSuccess = false;
+            }, 3000);
           }
         })
         .catch((err) => {
           console.log(err);
+          this.errorMes = "管理员账号错误";
           this.loginSuccess = true;
           setTimeout(() => {
             this.loginSuccess = false;
           }, 2000);
-          // alert("登陆失败");
+          // alert("服务器异常");
         });
     },
-  },
-  updated() {
-    this.$store.commit("loginChange", this.personMessage);
+    phoneErrorClose() {
+      this.phoneErrorShow = false;
+    },
+    checkPhone() {
+      console.log("checkPhone");
+      if (!/^1[3|4|5|7|8][0-9]{9}$/.test(this.phone)) {
+        this.phoneErrorShow = true;
+        this.phoneError = "手机号输入错误";
+      }
+    },
   },
 };
 </script>
@@ -245,18 +237,8 @@ body {
     cursor: pointer;
     // margin-right: 1rem;
   }
-  &__login {
-    left: 4.3rem;
-    right: 4.3rem;
-    height: 0.12rem;
-    line-height: 0.12rem;
-    text-align: center;
-    font-size: 0.14rem;
-    cursor: pointer;
-    // border: 0.01rem solid red;
-  }
   &__login-button {
-    margin: 0.2rem 0.4rem 0.16rem 0.4rem;
+    margin: 0rem 0.4rem 0.16rem 0.4rem;
     line-height: 0.48rem;
     background: #00bdff;
     box-shadow: 0 0.04rem 0.08rem 0 rgba(0, 145, 255, 0.32);
@@ -273,22 +255,25 @@ body {
   }
   &__fail {
     position: absolute;
-    margin-left: 1.97rem;
+    margin: 0rem 0.4rem 0.16rem 0.4rem;
     font-size: 0.16rem;
+    text-align: center;
+    width: 3.8rem;
     color: red;
+    // border: 1px solid red;
   }
-  &__error {
-    position: absolute;
-    margin-top: -0.19rem;
-    margin-left: 0.5rem;
-    width: 1.3rem;
-    height: 0.12rem;
-    line-height: 0.12rem;
-    // text-align: center;
-    color: red;
-    font-size: 0.12rem;
-    // border: 0.01rem solid red;
-  }
+}
+.phone__error {
+  position: absolute;
+  margin-top: -0.17rem;
+  margin-left: 0.5rem;
+  width: 1.6rem;
+  height: 0.12rem;
+  line-height: 0.12rem;
+  // text-align: center;
+  color: red;
+  font-size: 0.12rem;
+  // border: 0.01rem solid red;
 }
 .allow {
   cursor: not-allowed;

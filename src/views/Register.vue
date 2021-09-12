@@ -38,10 +38,10 @@
             v-model="personMes.player.phone"
           />
           <button
-            @click="getVerifyCode()"
-            :disabled="false"
             class="register__phoneButton"
             :class="{ allow: disabled }"
+            @click="getVerifyCode()"
+            :disabled="disabled"
           >
             {{ btnTitle }}
           </button>
@@ -64,8 +64,10 @@
           <div class="register__input__text">验证码</div>
           <input
             class="register__input__content"
+            :class="{ allow: !flag }"
             placeholder="请输入验证码"
             v-model="personMes.cacheCode"
+            :disabled="!flag"
           />
         </div>
         <div class="iconfont register__del" @click="del">&#xe732;</div>
@@ -112,6 +114,7 @@ export default {
       btnTitle: "获取验证码",
       registerFalse: false, // 注册错误的提示信息是否展示
       errorMes: "", // 注册错误的提示信息
+      flag: false, // 控制验证码框是否允许输入
     };
   },
   computed: {
@@ -126,7 +129,7 @@ export default {
       ) {
         return false;
       } else {
-        return false;
+        return true;
       }
     },
   },
@@ -163,6 +166,7 @@ export default {
       if (this.validatePhone()) {
         // 先判断手机号是否合法
         this.validateBtn(); // 先将发送短信按钮给禁止，60s
+        this.flag = true;
         // 发送短信请求
         const message = { phone: this.personMes.player.phone };
         post("/player/send", message)
@@ -193,26 +197,14 @@ export default {
           if (res.data.result.code === 200) {
             alert("注册成功");
             this.$router.replace("/LoginPasswd");
-          } else if (res.data.result.code === 401) {
-            this.errorMes = res.data.result.message;
-            this.registerFalse = true;
-            setTimeout(() => {
-              this.registerFalse = false;
-            }, 3000);
-          } else if (res.data.result.code === 402) {
-            this.errorMes = res.data.result.message;
-            this.registerFalse = true;
-            setTimeout(() => {
-              this.registerFalse = false;
-            }, 3000);
-          } else if (res.data.result.code === 403) {
+          } else if (res.data.result.code !== 200) {
             this.errorMes = res.data.result.message;
             this.registerFalse = true;
             setTimeout(() => {
               this.registerFalse = false;
             }, 3000);
           } else {
-            this.errorMes = "错误";
+            this.errorMes = "异常错误";
             this.registerFalse = true;
             setTimeout(() => {
               this.registerFalse = false;

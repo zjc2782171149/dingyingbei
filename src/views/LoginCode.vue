@@ -22,10 +22,10 @@
             v-model="personMessage.player.admin"
           />
           <button
-            @click="getVerifyCode()"
-            :disabled="disabled"
             class="login__phoneButton"
             :class="{ allow: disabled }"
+            @click="getVerifyCode()"
+            :disabled="disabled"
           >
             {{ btnTitle }}
           </button>
@@ -37,8 +37,10 @@
           <div class="login__input__text">验证码</div>
           <input
             class="login__input__content"
+            :class="{ allow: !flag }"
             placeholder="请输入验证码"
             v-model="personMessage.cacheCode"
+            :disabled="!flag"
           />
         </div>
         <div class="login__login">
@@ -83,15 +85,13 @@ export default {
       btnTitle: "获取验证码",
       registerFalse: false, // 登录错误的提示信息是否展示
       errorMes: "", // 登录错误的提示信息是否展示
+      flag: false, // 控制验证码框是否允许输入
     };
   },
   computed: {
     // 手机号和验证码都不能为空
     isClick() {
-      if (
-        this.personMessage.player.admin &&
-        this.personMessage.player.password
-      ) {
+      if (this.personMessage.player.admin && this.personMessage.cacheCode) {
         return false;
       } else {
         return true;
@@ -131,6 +131,7 @@ export default {
       if (this.validatePhone()) {
         // 先判断手机号是否合法
         this.validateBtn(); // 先将发送短信按钮给禁止，60s
+        this.flag = true;
         // 发送短信请求
         const message = { phone: this.personMessage.player.admin };
         post("/player/send", message)
@@ -155,42 +156,19 @@ export default {
 
       post("/player/login", message)
         .then((res) => {
-          // console.log(res);
+          console.log(res);
           if (res.data.player) {
-            this.$store.state.admin = res.data.player.name;
             localStorage.isLogin = true;
-            window.localStorage.setItem(
-              "peopleMessage",
-              JSON.stringify(res.user)
-            );
             alert("登录成功");
             this.$router.push({ name: "Home" });
-          } else if (res.data.result.code === 401) {
-            this.errorMes = res.data.result.message;
-            this.loginSuccess = true;
-            setTimeout(() => {
-              this.loginSuccess = false;
-            }, 3000);
-          } else if (res.data.result.code === 402) {
-            this.errorMes = res.data.result.message;
-            this.loginSuccess = true;
-            setTimeout(() => {
-              this.loginSuccess = false;
-            }, 3000);
-          } else if (res.data.result.code === 403) {
-            this.errorMes = res.data.result.message;
-            this.loginSuccess = true;
-            setTimeout(() => {
-              this.loginSuccess = false;
-            }, 3000);
-          } else if (res.data.result.code === 404) {
+          } else if (res.data.result.code !== 200) {
             this.errorMes = res.data.result.message;
             this.loginSuccess = true;
             setTimeout(() => {
               this.loginSuccess = false;
             }, 3000);
           } else {
-            this.errorMes = "手机号错误";
+            this.errorMes = "异常错误";
             this.loginSuccess = true;
             setTimeout(() => {
               this.loginSuccess = false;
@@ -203,7 +181,7 @@ export default {
           setTimeout(() => {
             this.loginSuccess = false;
           }, 2000);
-          alert("登陆失败");
+          alert("服务器异常");
         });
     },
   },

@@ -175,6 +175,8 @@
 </template>
 
 <script>
+// import { post } from "../utils/request";
+
 export default {
   name: "Item",
   props: ["itemListFromHome"],
@@ -187,10 +189,6 @@ export default {
         workName: "",
         direction: "",
         ground: "机械与控制",
-        fileLists: {
-          file1: "",
-          file2: "",
-        },
       },
       optionArray: {
         aa: false,
@@ -209,7 +207,9 @@ export default {
   watch: {
     itemListFromHome: function (newVal, oldVal) {
       this.itemList = newVal; // newVal便是itemList
-      console.log(this.itemList);
+      // console.log(this.itemList);
+      newVal && this.changeType();
+      newVal && this.otherInputShow();
     },
   },
   computed: {
@@ -237,15 +237,19 @@ export default {
     },
     getFile1(event) {
       this.file1Path = event.target.files[0].name;
-      const file = event.target.files;
-      this.itemList.fileLists.file1 = file;
-      // console.log(file);
-      // console.log(this.$store.state.peopleMessageList);
+      // const file = new Blob(event.target.files);
+      // const reader = new FileReader();
+      // reader.readAsArrayBuffer(file);
+      // reader.addEventListener("loadend", function () {
+      //   console.log(reader.result);
+      // });
+      // const file = event.target.files[0];
+      // post("一个url", file).then((res) => {});
     },
     getFile2(event) {
       this.file2Path = event.target.files[0].name;
-      const file = event.target.files;
-      this.itemList.fileLists.file2 = file;
+      // const file = event.target.files[0];
+      // this.itemList.fileLists.file2 = file;
       // console.log(file);
     },
     confirmMessage() {
@@ -319,13 +323,18 @@ export default {
       }
     },
     changeType() {
-      console.log(this.itemList.direction);
+      // console.log(this.itemList.direction);
       switch (this.itemList.direction) {
         case "A类：实用技术发明类":
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.ground = "";
+          if (!this.$store.state.flag) {
+            this.itemList.ground = "";
+            this.$store.state.flag = 0;
+          } else {
+            this.$store.state.flag = 0;
+          }
           this.optionArray.aa = true;
           this.elseChangeFalse("aa");
           break;
@@ -333,7 +342,12 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.ground = "";
+          if (!this.$store.state.flag) {
+            this.itemList.ground = "";
+            this.$store.state.flag = 0;
+          } else {
+            this.$store.state.flag = 0;
+          }
           this.optionArray.bb = true;
           this.elseChangeFalse("bb");
           break;
@@ -341,7 +355,12 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.ground = "";
+          if (!this.$store.state.flag) {
+            this.itemList.ground = "";
+            this.$store.state.flag = 0;
+          } else {
+            this.$store.state.flag = 0;
+          }
           this.optionArray.cc = true;
           this.elseChangeFalse("cc");
           break;
@@ -349,7 +368,12 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.ground = "";
+          if (!this.$store.state.flag) {
+            this.itemList.ground = "";
+            this.$store.state.flag = 0;
+          } else {
+            this.$store.state.flag = 0;
+          }
           this.optionArray.dd = false;
           this.elseChangeFalse("dd");
           break;
@@ -357,7 +381,12 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.ground = "";
+          if (!this.$store.state.flag) {
+            this.itemList.ground = "";
+            this.$store.state.flag = 0;
+          } else {
+            this.$store.state.flag = 0;
+          }
           this.optionArray.ee = false;
           this.elseChangeFalse("ee");
           break;
@@ -365,7 +394,12 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.ground = "";
+          if (!this.$store.state.flag) {
+            this.itemList.ground = "";
+            this.$store.state.flag = 0;
+          } else {
+            this.$store.state.flag = 0;
+          }
           this.optionArray.ff = false;
           this.elseChangeFalse("ff");
           break;
@@ -374,7 +408,12 @@ export default {
           this.optionShow1 = false;
           this.optionShow2 = false;
           this.optionShow3 = false;
-          this.itemList.ground = "";
+          if (!this.$store.state.flag) {
+            this.itemList.ground = "";
+            this.$store.state.flag = 0;
+          } else {
+            this.$store.state.flag = 0;
+          }
           this.optionArray.gg = false;
           this.elseChangeFalse("gg");
       }
@@ -382,7 +421,7 @@ export default {
     // 改变不同select的不同option选项 end
     // ABC三类，ground为其他时才显示输入框 start
     otherInputShow() {
-      console.log(this.itemList.direction, this.itemList.ground);
+      // console.log(this.itemList.direction, this.itemList.ground);
       if (
         this.itemList.ground === "其他" &&
         this.itemList.direction === "A类：实用技术发明类"

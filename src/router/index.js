@@ -7,6 +7,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue')
   },
   {
+    path: '/adminLogin',
+    name: 'adminLogin',
+    component: () => import(/* webpackChunkName: "about" */ '../views/adminLogin.vue')
+  },
+  {
     path: '/register',
     name: 'Register',
     component: () => import(/* webpackChunkName: "about" */ '../views/Register.vue')
@@ -39,7 +44,7 @@ const router = createRouter({
 // 进入报名系统前，必须进入两个登录页面或注册页面
 router.beforeEach((to, from, next) => {
   const isLogin = localStorage.isLogin;
-  (isLogin || to.name === 'LoginPasswd' || to.name === 'LoginCode' || to.name === 'Register') ? next() : next({ name: "LoginPasswd" });
+  (isLogin || to.name === 'adminLogin' || to.name === 'LoginPasswd' || to.name === 'LoginCode' || to.name === 'Register') ? next() : next({ name: "LoginPasswd" });
 })
 
 export default router

@@ -24,7 +24,9 @@
         <div class="right">
           <div class="name_tag">
             <div class="shortcut__name">{{ admin }}</div>
-            <div class="iconfont shortcut__iconfont">&#xe658;</div>
+            <div class="iconfont shortcut__iconfont" @click="exitLogin">
+              &#xe658;
+            </div>
           </div>
           <div class="shortcut__Login" :class="{ style__green: styleShow }">
             {{ isLogin }}
@@ -42,11 +44,6 @@
         ></component>
       </keep-alive>
       <router-view></router-view>
-      <!-- <router-view v-slot="{ which }">
-        <keep-alive>
-          <component :is="which"></component>
-        </keep-alive>
-      </router-view> -->
     </div>
     <div class="topimg"><img src="../assets/imgs/1.png" alt="" /></div>
   </div>
@@ -85,10 +82,13 @@ export default {
       } else {
         this.which = "Teacher";
       }
-      // console.log(this.which);
     },
     changeToTeam() {
       this.which = "Team";
+    },
+    exitLogin() {
+      localStorage.removeItem("isLogin");
+      this.$router.replace({ name: "LoginPasswd" });
     },
   },
   created() {
@@ -97,17 +97,18 @@ export default {
       .then((res) => {
         this.itemListFromHome = res.data.result.data.project;
         this.$store.state.peopleMessageList = res.data.result.data;
+        this.$store.state.flag = 1;
+        if (this.$store.state.peopleMessageList.admin) {
+          this.isLogin = "已登录";
+          this.styleShow = true;
+          this.admin = this.$store.state.peopleMessageList.admin;
+        }
+        // 设置登录后样式，右上角
       })
       .catch((err) => {
         console.log(err);
+        alert("未知异常，请刷新网页");
       });
-
-    if (this.$store.state.admin) {
-      this.isLogin = "已登录";
-      this.styleShow = true;
-      this.admin = this.$store.state.admin;
-    }
-    // 设置登录后样式，右上角
   },
 };
 </script>

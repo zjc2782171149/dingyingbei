@@ -11,14 +11,11 @@ export default createStore({
         workName: '',
         direction: '',
         ground: '',
-        college: '数学',
-        type: '本科生',
+        college: '',
+        type: '',
         teacheriD: '',
         TeamId: '',
-        fileLists: {
-          file1: '',
-          file2: ''
-        }
+        fileLists: [],
       },
       team: [
         {
@@ -41,6 +38,7 @@ export default createStore({
       }
     },
     indexForMask: -1,
+    flag: 1,
   },
   mutations: {
     changeIndex(state, payload) {
@@ -48,9 +46,6 @@ export default createStore({
     },
     teamChange(state, payload) {
       state.peopleMessageList.team = payload;
-    },
-    loginChange(state, payload) {
-      state.playerMes = payload.personMessage;
     },
     maskChange(state, payload) {
       state.peopleMessageList.team[state.indexForMask] = payload;

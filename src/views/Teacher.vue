@@ -97,12 +97,14 @@ export default {
     },
     submit() {
       const message = JSON.stringify(this.$store.state.peopleMessageList);
-      post("/apply/sumbit", message)
+      post("/apply/submit", message)
         .then((res) => {
           console.log(res);
+          alert("提交报名信息成功");
         })
         .catch((err) => {
           console.log(err);
+          alert("服务器异常");
         });
     },
   },
@@ -148,6 +150,8 @@ export default {
     left: 1.3rem;
     font-size: 0.26rem;
     width: 1.26rem;
+    height: 0.32rem;
+    line-height: 0.32rem;
     // border: 0.01rem solid red;
     overflow: hidden;
     white-space: nowrap;

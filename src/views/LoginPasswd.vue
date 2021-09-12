@@ -11,6 +11,9 @@
           class="login__img"
           src="http://www.dell-lee.com/imgs/vue3/user.png"
         />
+        <div class="login__changeToAdmin">
+          <router-link to="/adminLogin">切换至管理员登录</router-link>
+        </div>
         <div class="login__change">
           <router-link to="/LoginCode">切换至手机/验证码登录</router-link>
         </div>
@@ -70,7 +73,7 @@ export default {
         cacheCode: "",
       },
       loginSuccess: false,
-      errorMes: "", // 注册错误的提示信息
+      errorMes: "", // 登录错误的提示信息
     };
   },
   computed: {
@@ -93,42 +96,19 @@ export default {
 
       post("/player/login", message)
         .then((res) => {
-          // console.log(res);
+          console.log(res);
           if (res.data.player) {
-            this.$store.state.admin = res.data.player.name;
             localStorage.isLogin = true;
-            // window.localStorage.setItem(
-            //   "peopleMessage",
-            //   JSON.stringify(res.user)
-            // );
             alert("登录成功");
             this.$router.push({ name: "Home" });
-          } else if (res.data.result.code === 401) {
-            this.errorMes = res.data.result.message;
-            this.loginSuccess = true;
-            setTimeout(() => {
-              this.loginSuccess = false;
-            }, 3000);
-          } else if (res.data.result.code === 402) {
-            this.errorMes = res.data.result.message;
-            this.loginSuccess = true;
-            setTimeout(() => {
-              this.loginSuccess = false;
-            }, 3000);
-          } else if (res.data.result.code === 403) {
-            this.errorMes = res.data.result.message;
-            this.loginSuccess = true;
-            setTimeout(() => {
-              this.loginSuccess = false;
-            }, 3000);
-          } else if (res.data.result.code === 404) {
+          } else if (res.data.result.code !== 200) {
             this.errorMes = res.data.result.message;
             this.loginSuccess = true;
             setTimeout(() => {
               this.loginSuccess = false;
             }, 3000);
           } else {
-            this.errorMes = "手机号错误";
+            this.errorMes = "异常错误";
             this.loginSuccess = true;
             setTimeout(() => {
               this.loginSuccess = false;
@@ -154,9 +134,6 @@ export default {
         this.phoneError = "手机号输入错误";
       }
     },
-  },
-  updated() {
-    this.$store.commit("loginChange", this.personMessage);
   },
 };
 </script>
@@ -220,9 +197,19 @@ body {
   transform: translateY(-50%);
   &__img {
     display: block;
-    margin: 0 auto 0.4rem auto;
+    margin: 0 auto 0.5rem auto;
     width: 0.66rem;
     height: 0.66rem;
+  }
+  &__changeToAdmin {
+    position: absolute;
+    margin-top: -0.45rem;
+    margin-left: 1.3rem;
+    width: 2rem;
+    height: 0.1rem;
+    line-height: 0.1rem;
+    text-align: center;
+    font-size: 0.12rem;
   }
   &__change {
     position: absolute;
