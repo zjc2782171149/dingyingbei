@@ -96,15 +96,19 @@ export default {
     post("/apply/myApply")
       .then((res) => {
         console.log(res);
-        if (res.data.result.code === 201) {
-          alert("请开始报名，并注意及时保存信息，以免丢失数据");
-        }
-        if (res.data.result.data) {
+
+        if (res.data.result.code !== 201) {
           // 初始化数据
+          console.log("已报名");
           this.itemListFromHome = res.data.result.data.project;
           this.$store.state.peopleMessageList = res.data.result.data;
           this.$store.state.flag = 1;
+        } else if (res.data.result.data.code === 200) {
+          console.log("未报名");
+          this.$store.state.peopleMessageList.admin =
+            res.data.result.data.admin;
         }
+
         if (this.$store.state.peopleMessageList.admin) {
           // 检测登录状态
           this.isLogin = "已登录";
@@ -112,6 +116,13 @@ export default {
           this.admin = this.$store.state.peopleMessageList.admin;
         }
         // 设置登录后样式，右上角
+        setTimeout(() => {
+          if (res.data.result.code === 201) {
+            alert("请开始报名，并注意及时保存信息，以免丢失数据");
+          } else {
+            alert("该队伍已报名，可继续修改信息并再次提交");
+          }
+        }, 500);
       })
       .catch((err) => {
         console.log(err);

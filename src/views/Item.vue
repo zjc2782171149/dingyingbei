@@ -260,7 +260,6 @@ export default {
       this.$store.state.peopleMessageList.project.direction =
         this.itemList.direction;
       this.$store.state.peopleMessageList.project.ground = this.itemList.ground;
-      // console.log(this.$store.state.peopleMessageList);
       alert("项目信息保存成功");
     },
     nextPage() {

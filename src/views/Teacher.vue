@@ -78,8 +78,16 @@ export default {
     };
   },
   created() {
-    this.teacher = this.$store.state.peopleMessageList.teacher;
-    this.teacherShowMessage = this.$store.state.peopleMessageList.teacher;
+    this.teacher = this.$store.state.peopleMessageList.teacher; // 直接与vuex中数据作关联
+    this.teacherShowMessage.id = this.$store.state.peopleMessageList.teacher.id;
+    this.teacherShowMessage.name =
+      this.$store.state.peopleMessageList.teacher.name;
+    this.teacherShowMessage.college =
+      this.$store.state.peopleMessageList.teacher.college;
+    this.teacherShowMessage.job =
+      this.$store.state.peopleMessageList.teacher.job;
+    this.teacherShowMessage.phone =
+      this.$store.state.peopleMessageList.teacher.phone;
   },
   methods: {
     confirmMessage() {
@@ -88,12 +96,6 @@ export default {
       this.teacherShowMessage.job = this.teacher.job;
       this.teacherShowMessage.phone = this.teacher.phone;
       // 上面是choose框的展示，点击确认才关联上去并显示
-      this.$store.state.peopleMessageList.teacher.name = this.teacher.name;
-      this.$store.state.peopleMessageList.teacher.college =
-        this.teacher.college;
-      this.$store.state.peopleMessageList.teacher.job = this.teacher.job;
-      this.$store.state.peopleMessageList.teacher.phone = this.teacher.phone;
-      // 上面是关联到vuex中数据，点击确认才关联过去
     },
     submit() {
       const message = JSON.stringify(this.$store.state.peopleMessageList);
