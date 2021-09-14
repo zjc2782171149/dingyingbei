@@ -3,11 +3,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
+// import Element from 'element-ui'
 import 'normalize.css'
 import './style/base.scss'
 import './style/common.css'
 import './style/iconfont.css'
-import "animate.css"
+import './plugins/element.js'
+import 'element-ui/lib/theme-chalk/index.css'
 
 const app = createApp(App);
 app.use(store).use(router).mount('#app')

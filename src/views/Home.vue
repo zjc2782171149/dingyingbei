@@ -24,9 +24,17 @@
         <div class="right">
           <div class="name_tag">
             <div class="shortcut__name">{{ admin }}</div>
-            <div class="iconfont shortcut__iconfont" @click="exitLogin">
-              &#xe658;
-            </div>
+
+            <a
+              href="javascript:;"
+              class="iconfont shortcut__iconfont"
+              @click="exitLogin"
+              title="退出登录"
+              >&#xe647;</a
+            >
+            <!-- <div class="iconfont shortcut__iconfont" @click="exitLogin">
+              &#xe647;
+            </div> -->
           </div>
           <div class="shortcut__Login" :class="{ style__green: styleShow }">
             {{ isLogin }}
@@ -193,7 +201,7 @@ body {
   }
   &__iconfont {
     float: right;
-    margin-top: -0.3rem;
+    margin-top: -0.29rem;
     margin-right: 2.4rem;
     font-size: 0.18rem;
     width: 0.8rem;

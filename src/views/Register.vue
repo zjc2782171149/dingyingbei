@@ -173,7 +173,7 @@ export default {
       if (!this.personMes.player.phone) {
         this.error.phone = "手机号码不能为空";
         return false;
-      } else if (!/^1[345678]\d{9}$/.test(this.personMes.player.phone)) {
+      } else if (!/^1[0-9]{10}$/.test(this.personMes.player.phone)) {
         this.error.phone = "请输入正确的手机号";
         return false;
       } else {
@@ -254,22 +254,22 @@ export default {
           }, 3000);
         });
     },
-    del() {
-      const message = this.personMes.player;
-      post("/player/del", message)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-          this.registerFalse = true;
-          setTimeout(() => {
-            this.registerFalse = false;
-          }, 2000);
-          // alert("登陆失败");
-        });
-      // 发送网络请求
-    },
+    // del() {
+    //   const message = this.personMes.player;
+    //   post("/player/del", message)
+    //     .then((res) => {
+    //       console.log(res);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       this.registerFalse = true;
+    //       setTimeout(() => {
+    //         this.registerFalse = false;
+    //       }, 2000);
+    //       // alert("登陆失败");
+    //     });
+    //   // 发送网络请求
+    // },
     checkAdminRight() {
       const patrn = /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/;
       if (patrn.exec(this.personMes.player.admin)) {
