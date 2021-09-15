@@ -206,7 +206,7 @@ export default {
         post("/player/send", message)
           .then((res) => {
             alert("发送成功");
-            console.log(res);
+            // console.log(res);
             this.personMes.messageId = res.data.result.data.messageId;
           })
           .catch((err) => {
@@ -273,12 +273,12 @@ export default {
     checkAdminRight() {
       const patrn = /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/;
       if (patrn.exec(this.personMes.player.admin)) {
-        console.log("用户名输入合法");
+        // console.log("用户名输入合法");
         this.error.admin = "";
         this.Adminerror = false;
         this.adminRight = false;
       } else {
-        console.log("用户名输入不合法");
+        // console.log("用户名输入不合法");
         if (this.personMes.player.admin.length < 5) {
           this.error.admin = "用户名不得少于五位数";
         } else if (this.personMes.player.admin.length > 16) {
@@ -296,12 +296,12 @@ export default {
     checkPasswdRight() {
       const patrn = /^[a-zA-Z][a-zA-Z0-9_]{4,15}$/;
       if (patrn.exec(this.personMes.player.password)) {
-        console.log("密码输入合法");
+        // console.log("密码输入合法");
         this.error.passwd = "";
         this.Passwderror = false;
         this.passwdRight = false;
       } else {
-        console.log("密码输入不合法");
+        // console.log("密码输入不合法");
         if (this.personMes.player.password.length < 5) {
           this.error.passwd = "密码不得少于五位数";
         } else if (this.personMes.player.password.length > 16) {

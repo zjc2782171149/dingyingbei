@@ -103,18 +103,50 @@ export default {
     // 从接口获取该用户数据
     post("/apply/myApply")
       .then((res) => {
-        console.log(res);
+        // console.log(res);
 
-        if (res.data.result.code !== 201) {
+        if (res.data.result.code === 201) {
+          // console.log("未报名");
+          this.$store.state.peopleMessageList.admin =
+            res.data.result.data.admin;
+          this.$store.state.peopleMessageList.project = {
+            id: "",
+            teamName: "",
+            workName: "",
+            direction: "",
+            ground: "",
+            college: "",
+            type: "",
+            teacheriD: "",
+            TeamId: "",
+            fileLists: [],
+          };
+          this.$store.state.peopleMessageList.team = [
+            {
+              id: "",
+              name: "",
+              job: "",
+              college: "",
+              xueli: "",
+              project: "",
+              studentId: "",
+              phone: "",
+            },
+          ];
+          this.$store.state.peopleMessageList.teacher = {
+            id: "",
+            name: "",
+            college: "",
+            job: "",
+            phone: "",
+          };
+        } else if (res.data.result.code !== 201) {
           // 初始化数据
-          console.log("已报名");
+          // console.log("已报名");
+          // console.log(res.data.result);
           this.itemListFromHome = res.data.result.data.project;
           this.$store.state.peopleMessageList = res.data.result.data;
           this.$store.state.flag = 1;
-        } else if (res.data.result.data.code === 200) {
-          console.log("未报名");
-          this.$store.state.peopleMessageList.admin =
-            res.data.result.data.admin;
         }
 
         if (this.$store.state.peopleMessageList.admin) {
@@ -201,9 +233,9 @@ body {
   }
   &__iconfont {
     float: right;
-    margin-top: -0.29rem;
+    margin-top: -0.28rem;
     margin-right: 2.4rem;
-    font-size: 0.18rem;
+    font-size: 0.17rem;
     width: 0.8rem;
     height: 0.28rem;
     line-height: 0.28rem;

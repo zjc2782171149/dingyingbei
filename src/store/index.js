@@ -39,13 +39,17 @@ export default createStore({
     },
     indexForMask: -1,
     flag: 1,
+    other: '',
   },
   mutations: {
     changeIndex(state, payload) {
       state.indexForMask = payload;
     },
     teamChange(state, payload) {
-      state.peopleMessageList.team = payload;
+      console.log(payload);
+      state.peopleMessageList.team = payload.team;
+      state.peopleMessageList.project.type = payload.type;
+      state.peopleMessageList.project.college = payload.college;
     },
     maskChange(state, payload) {
       state.peopleMessageList.team[state.indexForMask] = payload;

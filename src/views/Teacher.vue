@@ -95,10 +95,14 @@ export default {
       this.teacherShowMessage.college = this.teacher.college;
       this.teacherShowMessage.job = this.teacher.job;
       this.teacherShowMessage.phone = this.teacher.phone;
+      alert("老师信息保存成功");
       // 上面是choose框的展示，点击确认才关联上去并显示
     },
     submit() {
+      this.$store.state.peopleMessageList.project.ground =
+        this.$store.state.other;
       const message = JSON.stringify(this.$store.state.peopleMessageList);
+      console.log(this.$store.state.peopleMessageList);
       post("/apply/submit", message)
         .then((res) => {
           console.log(res);

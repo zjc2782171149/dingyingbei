@@ -24,7 +24,18 @@
     <div class="sign__type">
       <div class="iconfont sign__type__iconfont">&#xe741;</div>
       <div class="sign__text">作品类别</div>
-      <select
+      <el-cascader
+        v-model="value"
+        :options="options"
+        :placeholder="PlaceHolder"
+        @change="handleChange"
+        style="width: 300px"
+      ></el-cascader>
+      <div class="sign__input--select" v-show="optionShow">
+        <span>请填写:</span>
+        <input type="text" v-model="other" />
+      </div>
+      <!-- <select
         name=""
         id=""
         class="sign__select"
@@ -135,7 +146,7 @@
         disabled
       >
         <option value="无选项" selected>无选项</option>
-      </select>
+      </select> -->
     </div>
     <div class="sign__book">
       <div class="iconfont sign__book__iconfont">&#xe741;</div>
@@ -184,35 +195,161 @@ export default {
     return {
       file1Path: "",
       file2Path: "",
+      other: "",
       itemList: {
         teamName: "",
         workName: "",
         direction: "",
-        ground: "机械与控制",
+        ground: "",
       },
-      optionArray: {
-        aa: false,
-        bb: false,
-        cc: false,
-        dd: false,
-        ee: false,
-        ff: false,
-        gg: false,
-      },
-      optionShow1: false,
-      optionShow2: false,
-      optionShow3: false,
+      optionShow: false,
+      // 以下是级联选择器内容
+      value: [],
+      props: { expandTrigger: "hover" },
+      options: [
+        {
+          value: "A类：实用技术发明类",
+          label: "A类：实用技术发明类",
+          children: [
+            {
+              value: "机械与控制",
+              label: "机械与控制",
+            },
+            {
+              value: "信息技术",
+              label: "信息技术",
+            },
+            {
+              value: "生命科学",
+              label: "生命科学",
+            },
+            {
+              value: "能源化工",
+              label: "能源化工",
+            },
+            {
+              value: "其他",
+              label: "其他",
+            },
+          ],
+        },
+        {
+          value: "B类：创新创意设计类",
+          label: "B类：创新创意设计类",
+          children: [
+            {
+              value: "机械与控制",
+              label: "机械与控制",
+            },
+            {
+              value: "信息技术",
+              label: "信息技术",
+            },
+            {
+              value: "生命科学",
+              label: "生命科学",
+            },
+            {
+              value: "能源化工",
+              label: "能源化工",
+            },
+            {
+              value: "其他",
+              label: "其他",
+            },
+          ],
+        },
+        {
+          value: "C类：科学实践论文类",
+          label: "C类：科学实践论文类",
+          children: [
+            {
+              value: "机械与控制",
+              label: "机械与控制",
+            },
+            {
+              value: "信息技术",
+              label: "信息技术",
+            },
+            {
+              value: "生命科学",
+              label: "生命科学",
+            },
+            {
+              value: "能源化工",
+              label: "能源化工",
+            },
+            {
+              value: "其他",
+              label: "其他",
+            },
+          ],
+        },
+        {
+          value: "C类：科学实践论文类",
+          label: "C类：科学实践论文类",
+          children: [
+            {
+              value: "机械与控制",
+              label: "机械与控制",
+            },
+            {
+              value: "信息技术",
+              label: "信息技术",
+            },
+            {
+              value: "生命科学",
+              label: "生命科学",
+            },
+            {
+              value: "能源化工",
+              label: "能源化工",
+            },
+            {
+              value: "其他",
+              label: "其他",
+            },
+          ],
+        },
+        {
+          value: "D类：文学作品类",
+          label: "D类：文学作品类",
+        },
+        {
+          value: "E类：广告创意设计类",
+          label: "E类：广告创意设计类",
+        },
+        {
+          value: "F类：商业计划类",
+          label: "F类：商业计划类",
+        },
+        {
+          value: "G类：社会科学调研类",
+          label: "G类：社会科学调研类",
+        },
+      ],
     };
   },
   watch: {
     itemListFromHome: function (newVal, oldVal) {
       this.itemList = newVal; // newVal便是itemList
       // console.log(this.itemList);
-      newVal && this.changeType();
-      newVal && this.otherInputShow();
+      this.value[0] = this.itemList.direction;
+      newVal && this.changeGround();
+      this.value[1] = this.itemList.ground;
+      // console.log(this.itemList);
+      // newVal && this.changeType();
+      // newVal && this.otherInputShow();
     },
   },
   computed: {
+    PlaceHolder() {
+      if (!this.itemList.direction) {
+        return "请选择组别";
+      } else {
+        return `${this.itemList.direction}/${this.itemList.ground}`;
+      }
+    },
     filepath1() {
       if (this.file1Path) {
         return "再次点击可重新上传";
@@ -229,6 +366,32 @@ export default {
     },
   },
   methods: {
+    // 初始化数据时，对级联选择器的初始化
+    changeGround() {
+      if (
+        this.itemList.ground !== "机械与控制" &&
+        this.itemList.ground !== "信息技术" &&
+        this.itemList.ground !== "生命科学" &&
+        this.itemList.ground !== "能源化工"
+      ) {
+        this.other = this.itemList.ground; // 将ground值赋值给input输入框
+        this.$store.state.other = this.itemList.ground;
+        this.itemList.ground = "其他";
+        this.optionShow = true;
+      }
+      console.log(this.itemList);
+    },
+    handleChange() {
+      console.log(this.value);
+      this.itemList.direction = this.value[0];
+      this.itemList.ground = this.value[1];
+      // 给本地对象赋值
+      if (this.itemList.ground === "其他") {
+        this.optionShow = true;
+      } else {
+        this.optionShow = false;
+      }
+    },
     xiugaibtn1() {
       this.$refs.files1.click(); // 绑定上传文件的事件
     },
@@ -259,193 +422,21 @@ export default {
         this.itemList.workName;
       this.$store.state.peopleMessageList.project.direction =
         this.itemList.direction;
-      this.$store.state.peopleMessageList.project.ground = this.itemList.ground;
+      if (this.other) {
+        this.$store.state.peopleMessageList.project.ground = this.other;
+        this.$store.state.other = this.other;
+      } else {
+        this.$store.state.peopleMessageList.project.ground =
+          this.itemList.ground;
+        this.$store.state.other = this.itemList.ground;
+      }
+
+      console.log(this.$store.state.peopleMessageList.project);
       alert("项目信息保存成功");
     },
     nextPage() {
       this.$emit("changePage");
     },
-    // 改变不同select的不同option选项 start
-    elseChangeFalse(type) {
-      if (type === "aa") {
-        this.optionArray.bb = false;
-        this.optionArray.cc = false;
-        this.optionArray.dd = false;
-        this.optionArray.ee = false;
-        this.optionArray.ff = false;
-        this.optionArray.gg = false;
-      } else if (type === "bb") {
-        this.optionArray.aa = false;
-        this.optionArray.cc = false;
-        this.optionArray.dd = false;
-        this.optionArray.ee = false;
-        this.optionArray.ff = false;
-        this.optionArray.gg = false;
-      } else if (type === "cc") {
-        this.optionArray.aa = false;
-        this.optionArray.bb = false;
-        this.optionArray.dd = false;
-        this.optionArray.ee = false;
-        this.optionArray.ff = false;
-        this.optionArray.gg = false;
-      } else if (type === "dd") {
-        this.optionArray.aa = false;
-        this.optionArray.cc = false;
-        this.optionArray.bb = false;
-        this.optionArray.ee = false;
-        this.optionArray.ff = false;
-        this.optionArray.gg = false;
-      } else if (type === "ee") {
-        this.optionArray.aa = false;
-        this.optionArray.cc = false;
-        this.optionArray.dd = false;
-        this.optionArray.bb = false;
-        this.optionArray.ff = false;
-        this.optionArray.gg = false;
-      } else if (type === "ff") {
-        this.optionArray.aa = false;
-        this.optionArray.cc = false;
-        this.optionArray.dd = false;
-        this.optionArray.ee = false;
-        this.optionArray.bb = false;
-        this.optionArray.gg = false;
-      } else {
-        this.optionArray.aa = false;
-        this.optionArray.cc = false;
-        this.optionArray.dd = false;
-        this.optionArray.ee = false;
-        this.optionArray.ff = false;
-        this.optionArray.bb = false;
-      }
-    },
-    changeType() {
-      // console.log(this.itemList.direction);
-      switch (this.itemList.direction) {
-        case "A类：实用技术发明类":
-          this.optionShow1 = false;
-          this.optionShow2 = false;
-          this.optionShow3 = false;
-          if (!this.$store.state.flag) {
-            this.itemList.ground = "";
-            this.$store.state.flag = 0;
-          } else {
-            this.$store.state.flag = 0;
-          }
-          this.optionArray.aa = true;
-          this.elseChangeFalse("aa");
-          break;
-        case "B类：创新创意设计类":
-          this.optionShow1 = false;
-          this.optionShow2 = false;
-          this.optionShow3 = false;
-          if (!this.$store.state.flag) {
-            this.itemList.ground = "";
-            this.$store.state.flag = 0;
-          } else {
-            this.$store.state.flag = 0;
-          }
-          this.optionArray.bb = true;
-          this.elseChangeFalse("bb");
-          break;
-        case "C类：科学实践论文类":
-          this.optionShow1 = false;
-          this.optionShow2 = false;
-          this.optionShow3 = false;
-          if (!this.$store.state.flag) {
-            this.itemList.ground = "";
-            this.$store.state.flag = 0;
-          } else {
-            this.$store.state.flag = 0;
-          }
-          this.optionArray.cc = true;
-          this.elseChangeFalse("cc");
-          break;
-        case "D类：文学作品类":
-          this.optionShow1 = false;
-          this.optionShow2 = false;
-          this.optionShow3 = false;
-          if (!this.$store.state.flag) {
-            this.itemList.ground = "";
-            this.$store.state.flag = 0;
-          } else {
-            this.$store.state.flag = 0;
-          }
-          this.optionArray.dd = false;
-          this.elseChangeFalse("dd");
-          break;
-        case "E类：广告创意设计类":
-          this.optionShow1 = false;
-          this.optionShow2 = false;
-          this.optionShow3 = false;
-          if (!this.$store.state.flag) {
-            this.itemList.ground = "";
-            this.$store.state.flag = 0;
-          } else {
-            this.$store.state.flag = 0;
-          }
-          this.optionArray.ee = false;
-          this.elseChangeFalse("ee");
-          break;
-        case "F类：商业计划类":
-          this.optionShow1 = false;
-          this.optionShow2 = false;
-          this.optionShow3 = false;
-          if (!this.$store.state.flag) {
-            this.itemList.ground = "";
-            this.$store.state.flag = 0;
-          } else {
-            this.$store.state.flag = 0;
-          }
-          this.optionArray.ff = false;
-          this.elseChangeFalse("ff");
-          break;
-
-        default:
-          this.optionShow1 = false;
-          this.optionShow2 = false;
-          this.optionShow3 = false;
-          if (!this.$store.state.flag) {
-            this.itemList.ground = "";
-            this.$store.state.flag = 0;
-          } else {
-            this.$store.state.flag = 0;
-          }
-          this.optionArray.gg = false;
-          this.elseChangeFalse("gg");
-      }
-    },
-    // 改变不同select的不同option选项 end
-    // ABC三类，ground为其他时才显示输入框 start
-    otherInputShow() {
-      // console.log(this.itemList.direction, this.itemList.ground);
-      if (
-        this.itemList.ground === "其他" &&
-        this.itemList.direction === "A类：实用技术发明类"
-      ) {
-        this.optionShow1 = true;
-        this.optionShow2 = false;
-        this.optionShow3 = false;
-      } else if (
-        this.itemList.ground === "其他" &&
-        this.itemList.direction === "B类：创新创意设计类"
-      ) {
-        this.optionShow1 = false;
-        this.optionShow2 = true;
-        this.optionShow3 = false;
-      } else if (
-        this.itemList.ground === "其他" &&
-        this.itemList.direction === "C类：科学实践论文类"
-      ) {
-        this.optionShow1 = false;
-        this.optionShow2 = false;
-        this.optionShow3 = true;
-      } else {
-        this.optionShow1 = false;
-        this.optionShow2 = false;
-        this.optionShow3 = false;
-      }
-    },
-    // ABC三类，ground为其他时才显示输入框 end
   },
 };
 </script>
@@ -549,8 +540,16 @@ export default {
       position: absolute;
       display: inline-block;
       width: 0.7rem;
-      left: 5.4rem;
+      left: 4.7rem;
       top: 0.11rem;
+    }
+    &--select input {
+      position: absolute;
+      display: inline-block;
+      font-size: 0.13rem;
+      width: 0.7rem;
+      left: 5.05rem;
+      top: 0.04rem;
     }
   }
   &__input:hover {

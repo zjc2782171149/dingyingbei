@@ -3,15 +3,15 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from 'axios'
-// import Element from 'element-ui'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 import 'normalize.css'
 import './style/base.scss'
 import './style/common.css'
 import './style/iconfont.css'
-import './plugins/element.js'
-import 'element-ui/lib/theme-chalk/index.css'
 
 const app = createApp(App);
+app.use(ElementPlus, { size: 'small' })
 app.use(store).use(router).mount('#app')
 
 // Vue.config.productionTip = false;

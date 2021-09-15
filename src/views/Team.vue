@@ -109,11 +109,11 @@ export default {
     this.type = this.$store.state.peopleMessageList.project.type;
     const map = new Map();
     let max = 0;
-    this.$store.state.peopleMessageList.type = "本科生";
+    this.$store.state.peopleMessageList.project.type = "本科生";
     this.type = "本科生";
     this.team.forEach((item) => {
       if (item.xueli === "研究生") {
-        this.$store.state.peopleMessageList.type = "研究生";
+        this.$store.state.peopleMessageList.project.type = "研究生";
         this.type = "研究生";
       }
       map.set(
@@ -129,20 +129,29 @@ export default {
         this.college = index;
       }
     });
+    this.$store.commit("teamChange", {
+      team: this.team,
+      type: this.type,
+      college: this.college,
+    });
   },
   updated() {
-    this.$store.commit("teamChange", this.team);
+    this.$store.commit("teamChange", {
+      team: this.team,
+      type: this.type,
+      college: this.college,
+    });
   },
   watch: {
     team: {
       handler: function (newVal, oldVal) {
         const map = new Map();
         let max = 0;
-        this.$store.state.peopleMessageList.type = "本科生";
+        this.$store.state.peopleMessageList.project.type = "本科生";
         this.type = "本科生";
         this.team.forEach((item) => {
           if (item.xueli === "研究生") {
-            this.$store.state.peopleMessageList.type = "研究生";
+            this.$store.state.peopleMessageList.project.type = "研究生";
             this.type = "研究生";
           }
           map.set(
