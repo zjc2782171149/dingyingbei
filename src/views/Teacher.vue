@@ -107,6 +107,7 @@ export default {
         .then((res) => {
           console.log(res);
           alert("提交报名信息成功");
+          localStorage.removeItem("isLogin");
         })
         .catch((err) => {
           console.log(err);

@@ -422,13 +422,14 @@ export default {
         this.itemList.workName;
       this.$store.state.peopleMessageList.project.direction =
         this.itemList.direction;
-      if (this.other) {
+      if (this.itemList.ground === "其他" && this.other) {
         this.$store.state.peopleMessageList.project.ground = this.other;
         this.$store.state.other = this.other;
       } else {
         this.$store.state.peopleMessageList.project.ground =
           this.itemList.ground;
         this.$store.state.other = this.itemList.ground;
+        this.other = "";
       }
 
       console.log(this.$store.state.peopleMessageList.project);
